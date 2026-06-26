@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>document.documentElement.className += " js";</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340..560&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Skylar Li · Product Design Portfolio</title>
+  <style>
+    :root {
+      --paper: #f7f3ec;
+      --ink: #181713;
+      --muted: #6d675f;
+      --line: #d8d0c5;
+      --soft: #ece5dc;
+      --stone: #2f332c;
+      --olive: #6a7358;
+      --clay: #a15f3f;
+      --blue: #3d6274;
+      --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-en);
+      line-height: 1.55;
+    }
+    body[data-lang="zh"] { font-family: var(--font-zh); }
+    a { color: inherit; text-decoration: none; }
+    .zh { display: none; }
+    body[data-lang="zh"] .en { display: none; }
+    body[data-lang="zh"] .zh { display: inline; }
+
+    .shell {
+      width: min(1120px, calc(100vw - 44px));
+      margin: 0 auto;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px max(22px, calc((100vw - 1120px) / 2));
+      border-bottom: 1px solid rgba(24, 23, 19, .12);
+      background: rgba(247, 243, 236, .9);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .links a:hover { color: var(--ink); }
+    .lang {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .lang button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 7px 10px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .lang button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .hero {
+      min-height: auto;
+      display: grid;
+      align-content: start;
+      gap: 28px;
+      padding: 96px 0 72px;
+    }
+    .eyebrow {
+      color: var(--olive);
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 22px;
+    }
+    .hero-sub {
+      margin-top: 16px;
+      max-width: 600px;
+      font-size: clamp(17px, 1.8vw, 20px);
+      line-height: 1.55;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      max-width: 760px;
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: 1.04;
+      letter-spacing: 0;
+      font-weight: 760;
+    }
+    body[data-lang="zh"] h1 {
+      max-width: 680px;
+      font-size: clamp(32px, 4.4vw, 56px);
+      line-height: 1.16;
+      font-weight: 720;
+    }
+    .lead {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.42;
+    }
+    .hero-foot {
+      display: block;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 11px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 96px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 32px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    body[data-lang="zh"] h2 {
+      line-height: 1.14;
+      font-weight: 720;
+    }
+    .section-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 620px;
+      padding-top: 4px;
+    }
+
+    .work-list {
+      display: grid;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .work-item {
+      display: grid;
+      grid-template-columns: 130px 1fr 280px;
+      gap: 28px;
+      min-height: 132px;
+      padding: 24px 28px;
+      background: var(--paper);
+      transition: background .2s ease;
+    }
+    .work-item:hover { background: #fffaf3; }
+    .index {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .work-item h3 {
+      margin-bottom: 8px;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1;
+      font-weight: 740;
+    }
+    body[data-lang="zh"] .work-item h3 {
+      line-height: 1.08;
+      font-weight: 720;
+    }
+    .work-item p {
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 16px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 8px;
+    }
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 52px 24px;
+      align-items: start;
+    }
+    .case {
+      display: block;
+      padding: 0;
+      background: transparent;
+    }
+    .case.featured {
+      grid-column: 1 / -1;
+    }
+    .case-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: start;
+      margin-top: 18px;
+    }
+    .case .index { margin-bottom: 12px; }
+    .case-title h3 {
+      margin: 0 0 9px;
+      font-size: clamp(26px, 3.1vw, 42px);
+      line-height: 1.02;
+      font-weight: 740;
+    }
+    body[data-lang="zh"] .case-title h3 {
+      line-height: 1.08;
+      font-weight: 720;
+    }
+    .case-title p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 620px;
+    }
+    .case-action {
+      align-self: start;
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+    .case-action:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .case-preview {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1.18 / 1;
+      background: var(--soft);
+    }
+    .case.featured .case-preview {
+      aspect-ratio: 16 / 8.6;
+    }
+    .case-preview img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.01);
+      transition: transform .35s ease;
+    }
+    .case:hover .case-preview img { transform: scale(1.035); }
+    .case-preview.ds {
+      background: #f5f7fb;
+    }
+    .case-preview.ds img {
+      object-position: center 12%;
+    }
+    .case-preview.report {
+      background: #f6f7f9;
+    }
+    .case-preview.report img {
+      object-position: center top;
+    }
+    .case-preview.product {
+      background: #f6f5f1;
+    }
+    .case-preview.product img {
+      object-position: center top;
+    }
+
+    footer {
+      padding: 46px max(22px, calc((100vw - 1120px) / 2));
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .links a { display: none; }
+      .hero-foot, .section-head, .case-grid, .case-row, .work-item {
+        grid-template-columns: 1fr;
+      }
+      .work-item {
+        min-height: auto;
+        gap: 18px;
+      }
+      .case-action {
+        justify-self: start;
+      }
+    }
+  
+    /* —— felt-not-watched reveal —— */
+    .js .reveal{opacity:0;transform:translateY(8px);transition:opacity .26s ease-out,transform .26s ease-out;}
+    .js .reveal.in{opacity:1;transform:none;}
+    .js .hero{opacity:0;transform:translateY(6px);transition:opacity .5s ease-out,transform .5s ease-out;}
+    .js .hero.loaded{opacity:1;transform:none;}
+    @media (prefers-reduced-motion: reduce){
+      .js .reveal,.js .reveal.in,.js .hero,.js .hero.loaded{opacity:1 !important;transform:none !important;transition:none !important;}
+    }
+  
+    /* —— Layout A: AI framed set / visual full-bleed —— */
+    .ai-tag{display:inline-block;font-size:11px;font-weight:760;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);padding:2px 9px;border-radius:999px;}
+    .row-no{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.04em;}
+    .rows{display:grid;gap:48px;margin-top:30px;}
+    .row-case{display:grid;grid-template-columns:1fr 340px;gap:44px;align-items:center;text-decoration:none;color:inherit;}
+    .row-case:hover,.row-case:focus,.row-case:visited{text-decoration:none;color:inherit;}
+    
+    
+    .row-media{aspect-ratio:16/10;border-radius:16px;overflow:hidden;position:relative;border:1px solid rgba(30,30,30,.055);box-shadow:0 18px 44px rgba(40,46,58,.12),0 2px 6px rgba(40,46,58,.06);}
+    .vis-cover{background:#edeef0;}
+    .vis-cover::after{content:"";position:absolute;inset:0;background-image:var(--shot);background-size:cover;background-position:var(--pos,center);}
+    .ai-cover{background:linear-gradient(135deg,#eef3f6 0%,#d6e2e8 100%);display:flex;}
+    .ai-cover::after{content:"";flex:1;margin:7% 8%;border-radius:8px;background-image:var(--shot);background-size:cover;background-position:var(--pos,top center);box-shadow:0 14px 34px rgba(40,62,76,.22);}
+    .row-meta{display:flex;align-items:center;gap:10px;}
+    .row-body h3{font-size:24px;font-weight:720;margin:12px 0 0;line-height:1.24;}
+    .row-body p{color:var(--muted);margin:9px 0 0;}
+    
+    #contact .work-item h3{font-size:clamp(20px,2.2vw,26px);line-height:1.25;font-weight:680;letter-spacing:-.01em;}
+    body[data-lang="zh"] #contact .work-item h3{font-size:clamp(20px,2.2vw,26px);}
+    #contact .work-item{grid-template-columns:130px 1fr;}
+    .contact-email{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:18px;font-weight:600;color:#242526;letter-spacing:-.01em;transition:color .22s ease;}
+    .contact-email::after{content:"→";font-weight:500;opacity:0;transform:translateX(-5px);transition:opacity .22s ease,transform .22s ease;}
+    .work-item:hover .contact-email{color:#3d6274;}
+    .work-item:hover .contact-email::after{opacity:1;transform:translateX(0);}
+
+    /* —— motion —— */
+    .js .hero-sub{opacity:0;transform:translateY(6px);transition:opacity .5s ease-out .13s,transform .5s ease-out .13s;}
+    .js .hero.loaded .hero-sub{opacity:1;transform:none;}
+    .js .row-case .row-body{opacity:0;transform:translateY(8px);transition:opacity .26s ease-out,transform .26s ease-out;}
+    .js .row-case.in .row-body{opacity:1;transform:none;}
+    .js .row-media{transition:opacity .26s ease-out,transform .3s ease,box-shadow .3s ease;}
+    .js .row-case .row-media{opacity:0;transform:translateY(8px);}
+    .js .row-case.in .row-media{opacity:1;transform:none;}
+    .js .ai-cover::after,.js .vis-cover::after{opacity:0;transform:scale(1.02);transition:opacity .45s ease-out .15s,transform .45s ease-out .15s;}
+    .js .row-case.in .ai-cover::after,.js .row-case.in .vis-cover::after{opacity:1;transform:scale(1);}
+    .js .row-case.in:hover .row-media{transform:translateY(-4px);box-shadow:0 18px 40px rgba(30,40,50,.18);}
+    @media (prefers-reduced-motion: reduce){
+      .js .hero-sub,.js .row-case .row-body,.js .row-media,.js .ai-cover::after,.js .vis-cover::after{opacity:1 !important;transform:none !important;transition:none !important;}
+    }
+  
+    /* —— Scheme B: editorial serif headings (Fraunces); Chinese stays sans —— */
+    :root{ --font-display:"Fraunces",Georgia,"Times New Roman",serif; }
+    h1{ font-family:var(--font-display); font-optical-sizing:auto; font-size:clamp(36px,5.2vw,72px); line-height:1.0; letter-spacing:-.01em; font-weight:420; }
+    h2{ font-family:var(--font-display); font-optical-sizing:auto; font-size:clamp(34px,5vw,64px); line-height:1.04; letter-spacing:-.01em; font-weight:440; }
+    .eyebrow{ font-family:var(--font-en); font-weight:700; letter-spacing:.11em; }
+    .row-body h3{ font-family:var(--font-en); font-weight:700; letter-spacing:-.005em; }
+    #contact .work-item h3{ font-family:var(--font-display); font-optical-sizing:auto; font-size:clamp(28px,3.4vw,44px); line-height:1.05; letter-spacing:-.005em; font-weight:440; }
+    body[data-lang="zh"] h1{ font-family:var(--font-zh); font-weight:720; letter-spacing:0; }
+    body[data-lang="zh"] h2{ font-family:var(--font-zh); font-weight:720; letter-spacing:0; }
+    body[data-lang="zh"] #contact .work-item h3{ font-family:var(--font-zh); font-weight:680; letter-spacing:0; font-size:clamp(24px,3vw,34px); }
+  
+    /* AI covers → full-bleed (now designed covers, drop inset frame) */
+    .ai-cover{ background:#edeef0; display:block; }
+    .ai-cover.ds-cover{
+      background:
+        radial-gradient(circle at 82% 46%, rgba(114, 210, 199, .16), transparent 34%),
+        #eef3f2;
+    }
+    .ai-cover::after{ position:absolute; inset:0; flex:none; margin:0; border-radius:0; box-shadow:none;
+      background-image:var(--shot); background-size:cover; background-position:var(--pos,center); transform:scale(1.02); }
+    .js .row-case.in .ai-cover::after{ transform:scale(1); }
+  
+    body[data-lang="zh"] .vis-cover::after, body[data-lang="zh"] .ai-cover::after{ background-image:var(--shot-zh, var(--shot)); }
+  
+    .row-desc{font-size:17px;line-height:1.5;color:var(--ink);opacity:.82;}
+    .row-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+    .row-tags > span{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--muted);font-size:13px;white-space:nowrap;}
+    .row-tags > .tag-ai{color:#fff;background:#0f766e;border-color:#0f766e;font-weight:680;box-shadow:0 4px 12px rgba(15,118,110,.22);}
+    .row-tags > .tag-ai::before{content:"✦";margin-right:6px;opacity:.92;font-size:12px;}
+    .row-link{display:inline-block;margin-top:18px;font-size:15px;font-weight:650;color:var(--blue,#3d6274);transition:transform .2s ease;}
+    .row-case:hover .row-link{transform:translateX(4px);}
+    @media (max-width: 820px){
+      .row-case{grid-template-columns:1fr;gap:22px;}
+    }
+  </style>
+</head>
+<body data-lang="en">
+  <nav class="nav">
+    <a class="brand" href="#top"><span class="en">Skylar Li · Portfolio</span><span class="zh">Skylar Li · 作品集</span></a>
+    <div class="links">
+      <a href="#work"><span class="en">Work</span><span class="zh">作品</span></a>
+      <a href="resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
+      <a href="#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+      <div class="lang" aria-label="Language switcher">
+        <button type="button" data-lang-button="en" onclick="setLang('en')">EN</button>
+        <button type="button" data-lang-button="zh" onclick="setLang('zh')">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="shell hero">
+      <div>
+        <h1><span class="en">A product designer who builds.</span><span class="zh">一个能设计也能落地的产品设计师。</span></h1>
+        <p class="hero-sub"><span class="en">I take problems to working products — using AI where it helps, keeping judgment where it matters.</span><span class="zh">把问题做成跑得起来的产品——该用 AI 的地方用 AI，该靠判断的地方靠人。</span></p>
+        <div class="eyebrow"><span class="en">AI tools · Education platforms · Consumer products</span><span class="zh">AI 工具 · 教育平台 · 消费级产品</span></div>
+      </div>
+      <div class="hero-foot">
+        <div class="meta" aria-label="Focus areas">
+          <span class="pill"><span class="en">AI Product Design</span><span class="zh">AI 产品设计</span></span>
+          <span class="pill"><span class="en">Design Engineering</span><span class="zh">设计工程</span></span>
+          <span class="pill"><span class="en">Complex Systems</span><span class="zh">复杂系统</span></span>
+          <span class="pill"><span class="en">Data-informed UX</span><span class="zh">数据驱动的体验设计</span></span>
+          <span class="pill"><span class="en">Research Tools</span><span class="zh">研究工具</span></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="shell" id="work">
+    <div class="section-head"><h2><span class="en">Selected Work</span><span class="zh">精选作品</span></h2></div>
+    <div class="rows">
+      <a class="row-case ai" href="cc/design-system-case-condensed.html">
+        <div class="row-media ai-cover" style="--shot:url(&quot;cover-assets/DS-cover.png&quot;);--shot-zh:url(&quot;cover-assets/DS-cover-cn.png&quot;);--pos:center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">01</span></div>
+          <h3><span class="en">Design System Governance</span><span class="zh">设计系统治理</span></h3>
+          <p class="row-desc"><span class="en">Turned 52 Vue3 components, AI rules, and token-lint checks into a reusable quality workflow for education-platform pages.</span><span class="zh">把 52 个 Vue3 组件、AI 规则和 token-lint 检查，做成教育平台页面可复用的质量流程。</span></p>
+          <div class="row-tags">
+            <span class="tag-ai"><span class="en">AI workflow</span><span class="zh">AI 工作流</span></span>
+            <span><span class="en">Design engineering</span><span class="zh">设计工程</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="row-case ai" href="cc/homework-report-case-editorial-preview.html">
+        <div class="row-media ai-cover" style="--shot:url(&quot;cover-assets/HW-browsers-cover.png&quot;);--shot-zh:url(&quot;cover-assets/HW-browsers-cover-cn.png&quot;);--pos:center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">02</span></div>
+          <h3><span class="en">Homework Report Framework</span><span class="zh">作业报告框架</span></h3>
+          <p class="row-desc"><span class="en">8 report types unified into one reusable framework</span><span class="zh">把 8 类报告收敛成一套可复用框架</span></p>
+          <div class="row-tags">
+            <span class="tag-ai"><span class="en">AI workflow</span><span class="zh">AI 工作流</span></span>
+            <span><span class="en">Framework design</span><span class="zh">框架设计</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="row-case ai" href="cc/product-compare-case.html">
+        <div class="row-media ai-cover" style="--shot:url(&quot;cover-assets/PC-cover.png&quot;);--shot-zh:url(&quot;cover-assets/PC-cover-cn.png&quot;);--pos:center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">03</span></div>
+          <h3><span class="en">Evidence-Led AI Competitive Analysis</span><span class="zh">证据驱动的 AI 竞品分析</span></h3>
+          <p class="row-desc"><span class="en">AI drafts the findings; people review the evidence. 17 of 20 reached the report.</span><span class="zh">AI 起草发现，人审查证据；20 条里 17 条进了报告。</span></p>
+          <div class="row-tags">
+            <span class="tag-ai"><span class="en">AI workflow</span><span class="zh">AI 工作流</span></span>
+            <span><span class="en">Competitive analysis</span><span class="zh">竞品分析</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="row-case" href="cases/tvchannels/tvchannels_one_page_case.html">
+        <div class="row-media vis-cover" style="--shot:url(&quot;cover-assets/TV-cover.png&quot;);--shot-zh:url(&quot;cover-assets/TV-cover-cn.png&quot;);--pos:calc(50% + 24px) center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">04</span></div>
+          <h3><span class="en">TVChannels</span><span class="zh">流媒体跨设备体验</span></h3>
+          <p class="row-desc"><span class="en">A launched mobile + TV streaming product for overseas markets, turning live viewing into a path to VOD and subscription.</span><span class="zh">一款已上线海外的手机 + TV 流媒体产品，把直播观看变成通往点播与订阅的路径。</span></p>
+          <div class="row-tags">
+            <span><span class="en">Cross-device UX</span><span class="zh">跨端体验</span></span>
+            <span><span class="en">Shipped product</span><span class="zh">已上线产品</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="row-case" href="cases/fittogether/fittogether_case-v2.html">
+        <div class="row-media vis-cover" style="--shot:url(&quot;cover-assets/FIT-cover.png&quot;);--shot-zh:url(&quot;cover-assets/FIT-cover-cn.png&quot;);--pos:calc(50% + 32px) center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">05</span></div>
+          <h3><span class="en">FitTogether</span><span class="zh">健身社交概念</span></h3>
+          <p class="row-desc"><span class="en">An end-to-end concept for a fitness app built around one problem — staying with the habit.</span><span class="zh">围绕「怎么坚持下去」这一个问题，做的健身 app 全流程概念设计。</span></p>
+          <div class="row-tags">
+            <span><span class="en">Concept UX</span><span class="zh">概念 UX</span></span>
+            <span><span class="en">Mobile UI craft</span><span class="zh">移动端 UI</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="row-case" href="cases/bugbox/bugbox_case.html">
+        <div class="row-media vis-cover" style="--shot:url(&quot;cover-assets/BUG-49.png&quot;);--pos:center;"></div>
+        <div class="row-body">
+          <div class="row-meta"><span class="row-no">06</span></div>
+          <h3><span class="en">BugBox</span><span class="zh">AIGC 视觉探索</span></h3>
+          <p class="row-desc"><span class="en">An AIGC concept that turns one emotion-led character IP into a repeatable, style-controlled visual system.</span><span class="zh">一个 AIGC 概念：把情绪角色 IP 做成可复用、风格可控的视觉系统。</span></p>
+          <div class="row-tags">
+            <span><span class="en">AIGC</span><span class="zh">AIGC</span></span>
+            <span><span class="en">Visual system</span><span class="zh">视觉系统</span></span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="shell" id="contact">
+      <div class="section-head">
+        <h2><span class="en">About</span><span class="zh">关于</span></h2>
+        <p class="section-note">
+          <span class="en">I’m a product designer with nearly five years of experience across AI tools, education platforms, and cross-device TV products. My work combines product strategy, interaction design, data insight, and hands-on AI prototyping. I’m especially interested in turning ambiguous workflows into structured tools and shipped product experiences.</span>
+          <span class="zh">我是一名产品设计师，近 5 年经验覆盖 AI 工具、教育平台和跨设备 TV 产品。我的工作横跨产品策略、交互设计、数据洞察和 AI 原型落地，尤其喜欢把模糊的工作流梳理成结构化的工具，再做成真正上线的产品。</span>
+        </p>
+      </div>
+      <div class="work-list">
+        <a class="work-item" href="mailto:zhuoxiuli01@sina.com">
+          <span class="index"><span class="en">Contact</span><span class="zh">联系</span></span>
+          <div>
+            <h3><span class="en">Let’s talk</span><span class="zh">找我聊聊</span></h3>
+            <p><span class="en">Available for AI product design, design systems, and complex product experience roles.</span><span class="zh">正在看 AI 产品设计、设计系统与复杂产品体验方向的机会。</span></p>
+            <span class="contact-email">zhuoxiuli01@sina.com</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span class="en">Product design portfolio · AI workflows, complex systems, and design engineering.</span>
+    <span class="zh">产品设计作品集 · AI 工作流、复杂系统与设计工程。</span>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      localStorage.setItem("portfolioPureLang", lang);
+      document.querySelectorAll("[data-lang-button]").forEach(function(button) {
+        button.classList.toggle("active", button.dataset.langButton === lang);
+      });
+    }
+    setLang(localStorage.getItem("portfolioPureLang") || "en");
+  </script>
+  <script>
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.querySelector('.hero');
+    if(hero){ requestAnimationFrame(function(){ hero.classList.add('loaded'); }); }
+    var generic = document.querySelectorAll('.section-head, #contact .work-list');
+    var rows = document.querySelectorAll('.row-case');
+    if(reduce || !('IntersectionObserver' in window)){
+      generic.forEach(function(b){ b.classList.add('reveal','in'); });
+      rows.forEach(function(r){ r.classList.add('in'); });
+      return;
+    }
+    generic.forEach(function(b){ b.classList.add('reveal'); });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    generic.forEach(function(b){ io.observe(b); });
+    rows.forEach(function(r){ io.observe(r); });
+  })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitTogether · Concept UX Case</title>
+  <style>
+    :root {
+      --ink: #181713;
+      --paper: #f7f3ec;
+      --muted: #6d675f;
+      --line: #d8d0c5;
+      --purple: #6619ff;
+      --violet: #2e164f;
+      --soft: #f1edf8;
+      --indent: 278px;
+      --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-en);
+      line-height: 1.56;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body[data-lang="zh"] { font-family: var(--font-zh); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    p, h1, h2, h3, figure { margin: 0; }
+    .zh { display: none; }
+    body[data-lang="zh"] .en { display: none; }
+    body[data-lang="zh"] .zh { display: inline; }
+    .zh-img { display: none; }
+    body[data-lang="zh"] .en-img { display: none; }
+    body[data-lang="zh"] .zh-img { display: block; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 18px max(22px, calc((100vw - 1180px) / 2));
+      background: rgba(251, 250, 248, .9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      font-size: 13px;
+      font-weight: 780;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .nav-actions a:hover { color: var(--ink); }
+    .lang {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .lang button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 6px 10px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .lang button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 44px));
+      margin: 0 auto;
+    }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, .78fr) minmax(520px, 1.22fr);
+      gap: 28px;
+      align-items: center;
+      margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2);
+      min-height: auto;
+      padding: 72px max(22px, calc((100vw - 1180px) / 2)) 0;
+      overflow: hidden;
+      color: #fff;
+      background: #5a00ff;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: min(840px, 56vw);
+      aspect-ratio: 1;
+      right: max(-120px, calc((100vw - 1180px) / 2 - 180px));
+      bottom: max(-360px, -24vw);
+      border-radius: 50%;
+      background: rgba(45, 0, 120, .38);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(22, 0, 54, .88) 0%, rgba(22, 0, 54, .5) 30%, rgba(22, 0, 54, .08) 54%, rgba(22, 0, 54, 0) 100%),
+        linear-gradient(0deg, rgba(22, 0, 54, .22), rgba(22, 0, 54, 0) 46%);
+      pointer-events: none;
+    }
+    .hero > div {
+      position: relative;
+      z-index: 1;
+      width: min(640px, 100%);
+    }
+    .hero-art {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      align-self: end;
+      justify-self: end;
+      width: min(100%, 720px);
+    }
+    .hero-art img {
+      width: 100%;
+      filter: drop-shadow(0 34px 58px rgba(22, 0, 54, .28));
+    }
+    .eyebrow {
+      color: #cdb8ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin-top: 18px;
+      max-width: 620px;
+      font-size: clamp(56px, 8vw, 116px);
+      line-height: .9;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+    body[data-lang="zh"] h1 {
+      max-width: 560px;
+      font-size: clamp(46px, 6.8vw, 82px);
+      line-height: 1.08;
+      font-weight: 720;
+    }
+    .thesis {
+      margin-top: 22px;
+      max-width: 600px;
+      color: rgba(255, 255, 255, .78);
+      font-size: clamp(19px, 2.4vw, 30px);
+      line-height: 1.28;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px;
+      padding: 34px 0 88px;
+      border-top: 1px solid var(--line);
+    }
+    .meta b {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--purple);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .meta span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    section {
+      border-top: 1px solid var(--line);
+      padding: 92px 0;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 38px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+    .label {
+      position: sticky;
+      top: 92px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      max-width: 880px;
+      font-size: clamp(38px, 5.8vw, 78px);
+      line-height: .98;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    body[data-lang="zh"] h2 {
+      line-height: 1.12;
+      font-weight: 720;
+    }
+    .lead {
+      max-width: 760px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    /* one content edge: every content block aligns to the rail-offset column */
+    section > .ov-d,
+    section > .personas,
+    section > .goals,
+    section > .ov-sum,
+    section > .case-figure,
+    section > .iter,
+    section > .screens {
+      margin-left: var(--indent);
+      width: calc(100% - var(--indent));
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    /* —— cream sections: slide mounted in a dark "tray" (document mode) —— */
+    .case-figure {
+      margin-top: 30px;
+      background: #0d0d0f;
+      padding: 26px;
+      border-radius: 14px;
+      box-shadow: 0 22px 52px rgba(24, 23, 19, .18);
+    }
+    .case-figure img {
+      width: 100%;
+      border-radius: 4px;
+    }
+    /* light/transparent infographic — sits directly on cream, no tray */
+    .case-figure.light {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .case-figure.light img { border-radius: 0; }
+
+    /* native text-column infographic (04 Strategy) — no image, pure tokens */
+    .goals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 44px;
+      margin-top: 36px;
+    }
+    .goal .glabel {
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .goal h3 {
+      font-size: 25px;
+      line-height: 1.16;
+      font-weight: 740;
+      color: var(--ink);
+    }
+    .goal .gsub {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .goal .strat {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .goal .slabel {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .goal ol {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .goal ol li { margin-bottom: 6px; }
+
+    /* 01 overview — narrative: framing -> methodology spine -> success criteria */
+    .ov-d { margin-top: 36px; }
+
+    .ov-road { margin-top: 0; }
+    .ov-road-label {
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .ov-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+    .ov-step-num { color: var(--purple); font-size: 13px; font-weight: 760; letter-spacing: .08em; margin-bottom: 10px; }
+    .ov-step h4 { color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 7px; }
+    .ov-step p { color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+    /* success criteria — subordinate, unified with dividers */
+    .ov-success { margin-top: 38px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .ov-kpis { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; }
+    .ov-kpi { padding-right: 30px; }
+    .ov-kpi + .ov-kpi { padding-left: 30px; border-left: 1px solid var(--line); }
+    .ov-kpi-name { color: var(--ink); font-size: 16px; font-weight: 640; }
+    .ov-kpi-note { color: var(--muted); font-size: 13px; margin-top: 5px; line-height: 1.4; }
+
+    /* 02 personas: dark identity card (image) + light dossier (HTML) */
+    .personas { display: grid; gap: 60px; margin-top: 36px; }
+    .persona { display: flex; gap: 48px; align-items: stretch; }
+    .persona-card {
+      flex: 0 0 auto;
+      margin: 0;
+      align-self: stretch;
+      aspect-ratio: 1007 / 1740;
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 22px 50px rgba(24, 23, 19, .18);
+    }
+    .persona-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .persona-body { flex: 1 1 auto; min-width: 0; }
+    .persona-quote {
+      color: var(--ink);
+      font-size: 19px;
+      line-height: 1.42;
+      font-style: italic;
+      font-weight: 560;
+      max-width: 740px;
+      margin-bottom: 26px;
+      padding-left: 18px;
+      border-left: 3px solid var(--purple);
+    }
+    .persona-block { margin-bottom: 22px; }
+    .pb-label {
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+    .persona-block > p { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 760px; }
+    .persona-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+    .persona-cols ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .persona-cols li { margin-bottom: 8px; }
+    .persona-cols li b { color: var(--ink); font-weight: 640; }
+
+    /* 08 summary — native 4-column with icons */
+    .ov-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 36px; }
+    .sum-icon { width: 44px; height: 44px; margin-bottom: 18px; }
+    .sum-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sum-col h4 { color: var(--ink); font-size: 18px; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+    body[data-lang="zh"] .sum-col h4 { font-weight: 500; }
+    .sum-col p { color: var(--muted); font-size: 14px; line-height: 1.55; margin-bottom: 12px; }
+    .sum-col p:last-child { margin-bottom: 0; }
+
+    /* —— full-bleed dark "stage" sections (03 / 06 / 07) —— */
+    section.stage {
+      margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2);
+      padding: 92px max(22px, calc((100vw - 1180px) / 2));
+      background: #0d0d0f;
+      border-top: 0;
+    }
+    section.stage + section.stage { border-top: 1px solid rgba(255, 255, 255, .10); }
+    section.stage h2 { color: var(--paper); }
+    section.stage .label { color: rgba(255, 255, 255, .48); }
+    section.stage .lead { color: rgba(255, 255, 255, .66); }
+    section.stage .case-figure {
+      margin-top: 30px;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    section.stage .case-figure img { border-radius: 8px; }
+    section.stage .screen-eyebrow { color: #a87cff; }
+    section.stage .iter-note { color: rgba(255, 255, 255, .70); }
+    section.stage .iter-note b { color: #a87cff; }
+    section.stage .compare figcaption { color: rgba(255, 255, 255, .55); }
+    section.stage .compare figcaption b { color: var(--paper); }
+
+    /* —— stacked single screens —— */
+    .screens { display: grid; gap: 64px; margin-top: 30px; }
+    .screen-eyebrow {
+      margin-bottom: 12px;
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .screens img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    /* —— iteration block: v1 vs v2, side by side —— */
+    .iter { margin-top: 30px; }
+    .iter-note {
+      max-width: 860px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .iter-note b { color: var(--purple); }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .compare figure { margin: 0; }
+    .compare img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .compare figcaption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .04em;
+    }
+    .compare figcaption b { color: var(--ink); }
+
+    .note {
+      max-width: 820px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    footer {
+      padding: 34px max(22px, calc((100vw - 1180px) / 2));
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      :root { --indent: 0px; }
+      .nav {
+        position: static;
+        padding: 16px 22px;
+      }
+      .nav-actions a { display: none; }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        align-items: end;
+        min-height: auto;
+        margin-inline: -22px;
+        padding: 48px 22px 0;
+      }
+      .hero::after {
+        background:
+          linear-gradient(180deg, rgba(22, 0, 54, .04) 0%, rgba(22, 0, 54, .42) 48%, rgba(22, 0, 54, .88) 100%);
+      }
+      .hero::before {
+        width: 96vw;
+        right: -42vw;
+        bottom: -34vw;
+      }
+      .hero-art {
+        grid-row: 1;
+        width: min(560px, 94vw);
+        justify-self: center;
+      }
+      .meta,
+      .section-head,
+      .compare,
+      .goals,
+      .ov-kpis,
+      .ov-steps,
+      .ov-sum,
+      .persona-cols {
+        grid-template-columns: 1fr;
+      }
+      .persona { flex-direction: column; align-items: flex-start; }
+      .persona-card { align-self: flex-start; width: min(280px, 70%); }
+      .ov-kpi { padding: 0; }
+      .ov-kpi + .ov-kpi { border-left: 0; margin-top: 18px; }
+      .label {
+        position: static;
+      }
+      h1 {
+        font-size: clamp(48px, 15vw, 66px);
+      }
+      section {
+        padding: 70px 0;
+      }
+    }
+
+    /* —— 与主页一致的全局 nav 组件 —— */
+    .nav{background:rgba(247,243,236,.9);border-bottom:1px solid rgba(24,23,19,.12);}
+    .nav .brand{font-size:13px;font-weight:760;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+    .nav .nav-actions{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:13px;}
+    .nav .nav-actions a{color:var(--muted);}
+    .nav .nav-actions a:hover{color:var(--ink);}
+    .nav .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;padding:0;gap:0;}
+    .nav .lang button{appearance:none;border:0;background:transparent;color:var(--muted);padding:7px 10px;font:inherit;cursor:pointer;}
+    .nav .lang button.active{background:var(--ink);color:var(--paper);}
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Portfolio navigation">
+    <a class="brand" href="../../index.html"><span class="en">Li Zhuoxiu · Portfolio</span><span class="zh">Li Zhuoxiu · 作品集</span></a>
+    <div class="nav-actions">
+      <a href="../../index.html#work"><span class="en">Work</span><span class="zh">作品</span></a>
+      <a href="../../resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
+      <a href="../../index.html#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+      <div class="lang" aria-label="Language switch">
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><span class="en">Mobile UX Support Case</span><span class="zh">移动端 UX 辅助案例</span></div>
+        <h1>FitTogether</h1>
+        <p class="thesis">
+          <span class="en">Reducing the gap between intention and first workout, then using progress and social motivation to bring users back.</span>
+          <span class="zh">降低用户从“想运动”到“开始运动”的阻力，并通过进度反馈和社交激励支持持续行为。</span>
+        </p>
+      </div>
+      <figure class="hero-art" aria-label="FitTogether product cover">
+        <img src="assets/shared/fittogether_hero_mockup.png" alt="FitTogether hand-held mobile app mockup">
+      </figure>
+    </header>
+
+    <div class="meta" aria-label="Case metadata">
+      <div><b><span class="en">Role</span><span class="zh">角色</span></b><span><span class="en">End-to-end concept UX — research framing, IA, flows, UI</span><span class="zh">概念项目全流程 UX —— 研究框架、信息架构、流程、界面</span></span></div>
+      <div><b><span class="en">Format</span><span class="zh">形式</span></b><span><span class="en">Self-driven concept project</span><span class="zh">自驱概念项目</span></span></div>
+      <div><b><span class="en">Use</span><span class="zh">用途</span></b><span><span class="en">UX process &amp; mobile UI craft — not an AI or launched-impact case</span><span class="zh">证明 UX 流程与移动端 UI craft —— 非 AI、非上线成效案例</span></span></div>
+      <div><b><span class="en">Status</span><span class="zh">状态</span></b><span><span class="en">Archived from previous portfolio</span><span class="zh">从旧作品集整理归档</span></span></div>
+    </div>
+
+    <section id="overview">
+      <div class="section-head">
+        <div class="label"><span class="en">01 — Overview</span><span class="zh">01 — 项目概览</span></div>
+        <div>
+          <h2><span class="en">A concept built around one problem: staying with the habit.</span><span class="zh">一个围绕单一问题做的概念项目：怎么坚持下去。</span></h2>
+          <p class="lead">
+            <span class="en">A self-initiated project. Rather than jump straight to screens, I scoped it end to end — an AI-driven fitness app that blends personalized training, social motivation, and progress tracking to turn intent into a habit that lasts.</span>
+            <span class="zh">这是个自驱项目。与其一上来就画界面，我把它从头到尾走了一遍——一款 AI 驱动的健身 App，用个性化训练、社交激励和数据追踪，让“想运动”变成能坚持的习惯。</span>
+          </p>
+        </div>
+      </div>
+      <div class="ov-d">
+        <div class="ov-road">
+          <div class="ov-road-label"><span class="en">Design Methodology</span><span class="zh">设计方法</span></div>
+          <div class="ov-steps">
+            <div class="ov-step"><div class="ov-step-num">01 →</div><h4><span class="en">Discovery</span><span class="zh">发现洞察</span></h4><p><span class="en">User research, competitive benchmarking</span><span class="zh">用户研究、竞品分析</span></p></div>
+            <div class="ov-step"><div class="ov-step-num">02 →</div><h4><span class="en">Strategy</span><span class="zh">策略制定</span></h4><p><span class="en">Design strategy, information architecture</span><span class="zh">设计策略、信息架构</span></p></div>
+            <div class="ov-step"><div class="ov-step-num">03 →</div><h4><span class="en">Execution</span><span class="zh">设计执行</span></h4><p><span class="en">User flows, features, screens</span><span class="zh">核心流程、页面及功能设计</span></p></div>
+            <div class="ov-step"><div class="ov-step-num">04</div><h4><span class="en">Validation</span><span class="zh">成果验证</span></h4><p><span class="en">Data analysis, design for iterations</span><span class="zh">数据分析、设计迭代</span></p></div>
+          </div>
+        </div>
+        <div class="ov-success">
+          <div class="ov-road-label"><span class="en">Success measured by</span><span class="zh">如何衡量成功</span></div>
+          <div class="ov-kpis">
+            <div class="ov-kpi">
+              <div class="ov-kpi-name"><span class="en">Weekly Active Workouts</span><span class="zh">周均有效训练次数</span></div>
+              <div class="ov-kpi-note"><span class="en">User stickiness and core product value</span><span class="zh">反映用户粘性和产品核心价值</span></div>
+            </div>
+            <div class="ov-kpi">
+              <div class="ov-kpi-name"><span class="en">Premium Conversion Rate</span><span class="zh">付费会员转化率</span></div>
+              <div class="ov-kpi-note"><span class="en">Health of the business model</span><span class="zh">衡量商业模式的健康度</span></div>
+            </div>
+            <div class="ov-kpi">
+              <div class="ov-kpi-name"><span class="en">Monthly Retention Rate</span><span class="zh">次月留存率</span></div>
+              <div class="ov-kpi-note"><span class="en">Long-term product appeal</span><span class="zh">体现产品对用户的长期吸引力</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="users">
+      <div class="section-head">
+        <div class="label"><span class="en">02 — Who it's for</span><span class="zh">02 — 为谁设计</span></div>
+        <div>
+          <h2><span class="en">Two users anchored every later decision.</span><span class="zh">两个用户，撑住了后面每一个决策。</span></h2>
+          <p class="lead">
+            <span class="en">A busy professional and an active parent. They kept the design honest about whose friction I was actually solving — so features earned their place against a person, not a hunch.</span>
+            <span class="zh">一个忙碌的上班族，一个要带娃的家长。他们让设计始终对得上“到底在解谁的麻烦” —— 每个功能都得对着一个具体的人站住脚，而不是凭感觉。</span>
+          </p>
+          <span class="tag"><span class="en">Concept personas · working assumptions, not field research</span><span class="zh">概念用户假设 · 非真实用研</span></span>
+        </div>
+      </div>
+      <div class="personas">
+        <article class="persona">
+          <figure class="persona-card">
+            <img src="assets/fittogether_persona1_card.png" alt="Persona — Jessica Brown, the busy professional">
+          </figure>
+          <div class="persona-body">
+            <p class="persona-quote"><span class="en">“I love staying active, but it's hard to stick to a routine on my own. I miss the social aspect of working out with others and need a way to stay connected and motivated.”</span><span class="zh">“我喜欢保持活力，但一个人很难坚持。我想念和别人一起运动的那种社交感，需要一个方式让自己有连接、有动力。”</span></p>
+            <div class="persona-block">
+              <div class="pb-label"><span class="en">Brief story</span><span class="zh">简述</span></div>
+              <p><span class="en">Jessica is a 29-year-old graphic designer at a marketing agency, living alone in a small city apartment. She has always been moderately active — yoga, the occasional run — but a sedentary job and busy schedule make a consistent routine hard. Working remotely, she feels isolated and is looking for ways to stay fit and stay connected.</span><span class="zh">Jessica，29 岁，在一家营销公司做平面设计，独居在小城市的小公寓。她一直算比较活跃——瑜伽、偶尔跑步——但久坐的工作和忙碌的节奏让她很难维持规律运动。远程办公让她有些孤立，她在找既能保持身材、又能建立连接的方式。</span></p>
+            </div>
+            <div class="persona-cols">
+              <div class="persona-block">
+                <div class="pb-label"><span class="en">Goals</span><span class="zh">目标</span></div>
+                <ul>
+                  <li><b><span class="en">Maintain fitness:</span><span class="zh">保持运动：</span></b><span class="en"> build a consistent routine for health and energy.</span><span class="zh">建立规律，改善身体和精力。</span></li>
+                  <li><b><span class="en">Social connection:</span><span class="zh">社交连接：</span></b><span class="en"> meet new people and build a network.</span><span class="zh">认识新朋友，建立社交圈。</span></li>
+                  <li><b><span class="en">Mental well-being:</span><span class="zh">心理健康：</span></b><span class="en"> reduce stress through regular activity.</span><span class="zh">通过规律运动缓解压力。</span></li>
+                  <li><b><span class="en">Stay motivated:</span><span class="zh">保持动力：</span></b><span class="en"> find external accountability and support.</span><span class="zh">寻找外部督促和支持。</span></li>
+                </ul>
+              </div>
+              <div class="persona-block">
+                <div class="pb-label"><span class="en">Frustrations</span><span class="zh">痛点</span></div>
+                <ul>
+                  <li><b><span class="en">Time management:</span><span class="zh">时间管理：</span></b><span class="en"> work crowds out regular exercise.</span><span class="zh">工作挤占了规律运动的时间。</span></li>
+                  <li><b><span class="en">Social isolation:</span><span class="zh">社交孤立：</span></b><span class="en"> remote work cut her social interaction.</span><span class="zh">远程办公减少了社交机会。</span></li>
+                  <li><b><span class="en">Lack of motivation:</span><span class="zh">缺乏动力：</span></b><span class="en"> hard to stay consistent alone.</span><span class="zh">一个人很难坚持。</span></li>
+                  <li><b><span class="en">Limited space:</span><span class="zh">空间有限：</span></b><span class="en"> a small apartment limits what she can do at home.</span><span class="zh">小公寓限制了在家能做的运动。</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="persona">
+          <figure class="persona-card">
+            <img src="assets/fittogether_persona2_card.png" alt="Persona — Mark Thompson, the active parent">
+          </figure>
+          <div class="persona-body">
+            <p class="persona-quote"><span class="en">“I want to stay healthy and active, but it's hard to find the time with work and family. It would be great to find a way to combine fitness with spending time with my kids.”</span><span class="zh">“我想保持健康和活力，但工作和家庭让我很难抽出时间。要是能把健身和陪孩子的时间结合起来就好了。”</span></p>
+            <div class="persona-block">
+              <div class="pb-label"><span class="en">Brief story</span><span class="zh">简述</span></div>
+              <p><span class="en">Mark is a 45-year-old software engineer living in the suburbs with his wife and two kids, aged 8 and 12. He has always been fairly active, but a demanding job and family responsibilities make a consistent routine difficult. He values quality time with his family and wants to fit fitness into that busy life rather than around it.</span><span class="zh">Mark，45 岁，软件工程师，和妻子、两个孩子（8 岁和 12 岁）住在郊区。他一直比较活跃，但繁重的工作和家庭责任让规律运动变得困难。他看重和家人相处的时间，想把健身融进忙碌的生活，而不是挤在生活之外。</span></p>
+            </div>
+            <div class="persona-cols">
+              <div class="persona-block">
+                <div class="pb-label"><span class="en">Goals</span><span class="zh">目标</span></div>
+                <ul>
+                  <li><b><span class="en">Stay fit and healthy:</span><span class="zh">保持健康：</span></b><span class="en"> keep up the energy to match his kids.</span><span class="zh">有精力跟上孩子。</span></li>
+                  <li><b><span class="en">Family involvement:</span><span class="zh">家庭参与：</span></b><span class="en"> work out with family, set a healthy example.</span><span class="zh">和家人一起运动，树立健康榜样。</span></li>
+                  <li><b><span class="en">Stress relief:</span><span class="zh">释放压力：</span></b><span class="en"> use fitness to unwind from work.</span><span class="zh">用运动从工作中解压。</span></li>
+                  <li><b><span class="en">Social interaction:</span><span class="zh">社交互动：</span></b><span class="en"> connect with other dads and families.</span><span class="zh">和其他父母、家庭建立连接。</span></li>
+                </ul>
+              </div>
+              <div class="persona-block">
+                <div class="pb-label"><span class="en">Frustrations</span><span class="zh">痛点</span></div>
+                <ul>
+                  <li><b><span class="en">Time constraints:</span><span class="zh">时间紧张：</span></b><span class="en"> work and family leave little room to exercise.</span><span class="zh">工作和家庭几乎不留运动余地。</span></li>
+                  <li><b><span class="en">Family commitments:</span><span class="zh">家庭责任：</span></b><span class="en"> responsibilities limit personal fitness time.</span><span class="zh">限制了个人健身时间。</span></li>
+                  <li><b><span class="en">Motivation:</span><span class="zh">动力：</span></b><span class="en"> hard to stay driven without a routine or community.</span><span class="zh">没有规律或社群很难坚持。</span></li>
+                  <li><b><span class="en">Family-friendly options:</span><span class="zh">亲子友好：</span></b><span class="en"> needs activities that work for adults and kids.</span><span class="zh">需要适合大人和孩子一起的活动。</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="competitive" class="stage">
+      <div class="section-head">
+        <div class="label"><span class="en">03 — Competitive</span><span class="zh">03 — 竞品分析</span></div>
+        <div>
+          <h2><span class="en">Where the category leaders leave a gap.</span><span class="zh">头部产品留下的缺口。</span></h2>
+          <p class="lead">
+            <span class="en">I pulled apart Keep and Strava — not for feature lists, but for what they don't do well. The opportunities at the bottom of this analysis became the spine of everything after.</span>
+            <span class="zh">我把 Keep 和 Strava 拆开看 —— 不是抄功能清单，是找它们做得不够的地方。这页底部的设计机会点，成了后面所有设计的主线。</span>
+          </p>
+        </div>
+      </div>
+      <figure class="case-figure">
+        <img class="en-img" src="assets/en/fittogether_page-07.png" alt="Competitive analysis of Keep and Strava with derived design opportunities">
+        <img class="zh-img" src="assets/fittogether_page-07.png" alt="Keep 与 Strava 竞品分析及推导出的设计机会点">
+      </figure>
+    </section>
+
+    <section id="strategy">
+      <div class="section-head">
+        <div class="label"><span class="en">04 — Strategy</span><span class="zh">04 — 设计策略</span></div>
+        <div>
+          <h2><span class="en">From the gap to a few bets.</span><span class="zh">从缺口，收敛成几个押注。</span></h2>
+          <p class="lead">
+            <span class="en">The analysis converged into a small, prioritized set of goals — the hinge between research and screens. Every screen that follows traces back to one of them.</span>
+            <span class="zh">分析收敛成一组排过序的目标 —— 这是研究和界面之间的转轴。后面每一屏，都能回溯到其中之一。</span>
+          </p>
+        </div>
+      </div>
+      <div class="goals">
+        <article class="goal">
+          <div class="glabel"><span class="en">Goal 1</span><span class="zh">目标 1</span></div>
+          <h3><span class="en">Optimize Core Experience</span><span class="zh">优化核心体验</span></h3>
+          <p class="gsub"><span class="en">Enhance user efficiency and trust</span><span class="zh">提升用户效率与信任</span></p>
+          <div class="strat">
+            <div class="slabel"><span class="en">Strategy</span><span class="zh">策略</span></div>
+            <ol>
+              <li><span class="en">AI-powered personalization</span><span class="zh">AI 驱动的个性化推荐</span></li>
+              <li><span class="en">Clear information hierarchy and navigation</span><span class="zh">清晰的信息层级与导航</span></li>
+              <li><span class="en">Real-time, intuitive data tracking</span><span class="zh">实时且直观的数据追踪</span></li>
+            </ol>
+          </div>
+        </article>
+        <article class="goal">
+          <div class="glabel"><span class="en">Goal 2</span><span class="zh">目标 2</span></div>
+          <h3><span class="en">Strengthen Social Incentives</span><span class="zh">强化社交激励</span></h3>
+          <p class="gsub"><span class="en">Increase user stickiness</span><span class="zh">增强用户粘性</span></p>
+          <div class="strat">
+            <div class="slabel"><span class="en">Strategy</span><span class="zh">策略</span></div>
+            <ol>
+              <li><span class="en">Leaderboards and challenges</span><span class="zh">排行榜与挑战赛设计</span></li>
+              <li><span class="en">Activity feeds, sharing, and interaction</span><span class="zh">用户动态分享与互动</span></li>
+              <li><span class="en">Location-based communities</span><span class="zh">地理位置社群功能</span></li>
+            </ol>
+          </div>
+        </article>
+        <article class="goal">
+          <div class="glabel"><span class="en">Goal 3</span><span class="zh">目标 3</span></div>
+          <h3><span class="en">Develop Monetization Pathways</span><span class="zh">构建付费路径</span></h3>
+          <p class="gsub"><span class="en">Drive business growth</span><span class="zh">驱动商业增长</span></p>
+          <div class="strat">
+            <div class="slabel"><span class="en">Strategy</span><span class="zh">策略</span></div>
+            <ol>
+              <li><span class="en">Differentiated features for conversion</span><span class="zh">功能差异化，引导付费转化</span></li>
+              <li><span class="en">Early exposure to premium value</span><span class="zh">增值服务前置，激发付费意愿</span></li>
+              <li><span class="en">Visualization of paid benefits</span><span class="zh">可视化数据权益，强化付费价值</span></li>
+            </ol>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="section-head">
+        <div class="label"><span class="en">05 — Architecture</span><span class="zh">05 — 信息架构</span></div>
+        <div>
+          <h2><span class="en">The structure underneath.</span><span class="zh">界面底下的结构。</span></h2>
+          <p class="lead">
+            <span class="en">The whole product mapped as one structure tree, before any UI. Getting the architecture right first is what kept the later screens from sprawling into a pile of disconnected features.</span>
+            <span class="zh">动手做界面之前，先把整个产品的结构理成一棵树。结构在前面定清楚，后面那些页面才不会散成一堆零散的功能。</span>
+          </p>
+        </div>
+      </div>
+      <figure class="case-figure light">
+        <img src="assets/fittogether_ia.png" alt="Information architecture tree for FitTogether">
+      </figure>
+    </section>
+
+    <section id="flow" class="stage">
+      <div class="section-head">
+        <div class="label"><span class="en">06 — Core Flow</span><span class="zh">06 — 核心流程</span></div>
+        <div>
+          <h2><span class="en">The whole product is one loop.</span><span class="zh">整个产品，就是一个循环。</span></h2>
+          <p class="lead">
+            <span class="en">Drawing the loop explicitly — before the screens — is how I decided what each screen had to carry, and what to leave out.</span>
+            <span class="zh">把这个循环明确画出来 —— 在做屏之前 —— 我才定得下每一屏要扛什么、不扛什么。</span>
+          </p>
+        </div>
+      </div>
+      <figure class="case-figure">
+        <img class="en-img" src="assets/en/fittogether_page-10.png" alt="Core process loop from app home to sharing">
+        <img class="zh-img" src="assets/fittogether_page-10.png" alt="从首页到分享的核心流程循环">
+      </figure>
+    </section>
+
+    <section id="screens" class="stage">
+      <div class="section-head">
+        <div class="label"><span class="en">07 — Screens</span><span class="zh">07 — 关键界面</span></div>
+        <div>
+          <h2><span class="en">The screens, and the calls behind them.</span><span class="zh">这些界面，和背后的判断。</span></h2>
+          <p class="lead">
+            <span class="en">Each screen below carries its own objective and reasoning — read those inside the frames. Here I'll only add the one thing the images can't show on their own: why the home screen changed.</span>
+            <span class="zh">下面每一屏都带着自己的目标和思路 —— 那些看图里就好。这里我只补一件图自己说不清的事：首页为什么改。</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="iter">
+        <p class="iter-note">
+          <span class="en"><b>Why the home changed.</b> The default home was tuned for browsing — it answered “what do I do next.” But browsing alone doesn't move people to act. v2 introduces the AI Coach card: it turns the home from a place you scroll into a place you start, and surfaces paid value inside that same moment.</span>
+          <span class="zh"><b>首页为什么改。</b> 默认首页是为“浏览”调的 —— 它回答“下一步做什么”。但光浏览不会推动用户行动。v2 加入了 AI Coach 卡片：把首页从“刷一刷”变成“开始练”，并在同一个动作里把付费价值露出来。</span>
+        </p>
+        <div class="compare">
+          <figure>
+            <img class="en-img" src="assets/en/fittogether_page-11.png" alt="Home page v1, default version tuned for browsing">
+            <img class="zh-img" src="assets/fittogether_page-11.png" alt="首页 v1 默认版，为浏览优化">
+            <figcaption><b>v1</b><span class="en"> · Default home</span><span class="zh"> · 默认首页</span></figcaption>
+          </figure>
+          <figure>
+            <img class="en-img" src="assets/en/fittogether_page-12.png" alt="Home page v2 with the AI Coach card driving conversion">
+            <img class="zh-img" src="assets/fittogether_page-12.png" alt="首页 v2，引入 AI Coach 卡片驱动转化">
+            <figcaption><b>v2</b><span class="en"> · AI Coach home</span><span class="zh"> · AI Coach 版</span></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="screens">
+        <figure>
+          <div class="screen-eyebrow"><span class="en">Browse &amp; filter</span><span class="zh">浏览与筛选</span></div>
+          <img class="en-img" src="assets/en/fittogether_page-13.png" alt="Workout page: structured discovery and tailored recommendations">
+          <img class="zh-img" src="assets/fittogether_page-13.png" alt="训练页：清晰分类筛选与个性化推荐">
+        </figure>
+        <figure>
+          <div class="screen-eyebrow"><span class="en">Detail &amp; trust</span><span class="zh">详情与信任</span></div>
+          <img class="en-img" src="assets/en/fittogether_page-14.png" alt="Workout detail page: trust signals and an action-oriented footer">
+          <img class="zh-img" src="assets/fittogether_page-14.png" alt="训练详情页：信任信号与行动转化">
+        </figure>
+        <figure>
+          <div class="screen-eyebrow"><span class="en">Live tracking</span><span class="zh">实时追踪</span></div>
+          <img class="en-img" src="assets/en/fittogether_page-16.png" alt="Outdoor workout tracking: real-time data, distraction-free">
+          <img class="zh-img" src="assets/fittogether_page-16.png" alt="户外训练追踪：实时数据，减少干扰">
+        </figure>
+        <figure>
+          <div class="screen-eyebrow"><span class="en">Post-workout</span><span class="zh">训练之后</span></div>
+          <img class="en-img" src="assets/en/fittogether_page-17.png" alt="Workout summary page: turning data into achievement and shareable content">
+          <img class="zh-img" src="assets/fittogether_page-17.png" alt="训练总结页：把数据转化为成就与可分享内容">
+        </figure>
+      </div>
+    </section>
+
+    <section id="summary">
+      <div class="section-head">
+        <div class="label"><span class="en">08 — Summary</span><span class="zh">08 — 总结</span></div>
+        <div>
+          <h2><span class="en">What this case actually proves.</span><span class="zh">这个案例真正能证明的。</span></h2>
+          <p class="lead">
+            <span class="en">Four conclusions, one through-line — reason from the user, not from a pile of features.</span>
+            <span class="zh">四条结论，一条主线——从用户出发推导，而不是从功能堆叠。</span>
+          </p>
+        </div>
+      </div>
+      <div class="ov-sum">
+        <div class="sum-col">
+          <div class="sum-icon"><img src="assets/icons/ic-insights.png" alt=""></div>
+          <h4><span class="en">User Insights</span><span class="zh">用户洞察</span></h4>
+          <p><span class="en">A flexible information hierarchy accommodates diverse users, from beginners to busy professionals.</span><span class="zh">健身用户群体差异很大（初学者、健身达人、上班族、宝妈等），信息架构和引导流程需要保持灵活。</span></p>
+          <p><span class="en">Long-term consistency is fueled by goal tracking and social accountability, not just exercise instructions.</span><span class="zh">用户的持续动力往往来自目标追踪和社交支持，设计不能只强调锻炼动作本身。</span></p>
+        </div>
+        <div class="sum-col">
+          <div class="sum-icon"><img src="assets/icons/ic-flow.png" alt=""></div>
+          <h4><span class="en">Experience Flow</span><span class="zh">体验流程</span></h4>
+          <p><span class="en">Users are usually “on the go,” so the flow needs minimal steps to reach their primary activity fast.</span><span class="zh">用户大多处于“运动中”或“准备运动”的状态，交互要尽量减少步骤、快速直达。</span></p>
+          <p><span class="en">Background features like coaching cues and data recording have to keep running to prevent app fatigue.</span><span class="zh">音乐播放、数据记录、AI 教练提示等功能要考虑后台运行，避免用户频繁切换应用。</span></p>
+        </div>
+        <div class="sum-col">
+          <div class="sum-icon"><img src="assets/icons/ic-money.png" alt=""></div>
+          <h4><span class="en">Monetization &amp; Strategy</span><span class="zh">功能与商业化结合</span></h4>
+          <p><span class="en">The challenge is surfacing premium features — analysis, AI coaching, challenges — without disrupting the core experience.</span><span class="zh">如何在不打扰用户的前提下，展示订阅或付费功能（高级分析、AI 教练、社区挑战）是一大挑战。</span></p>
+          <p><span class="en">A tiered approach offers foundational data for free, then gradually reveals advanced premium value.</span><span class="zh">用渐进式解锁引导转化：先提供免费基础数据，再逐步展示更详细的高级功能。</span></p>
+        </div>
+        <div class="sum-col">
+          <div class="sum-icon"><img src="assets/icons/ic-reflect.png" alt=""></div>
+          <h4><span class="en">Reflections</span><span class="zh">设计反思</span></h4>
+          <p><span class="en">Success is the appeal of the “30th workout” — long-term habit formation over a strong first impression.</span><span class="zh">健身高频但容易流失，设计不仅要关注“第一次使用”，更要关注“第 30 次使用”是否依然有吸引力。</span></p>
+          <p><span class="en">High-value design prioritizes findability and simplicity over a feature-heavy, complex interface.</span><span class="zh">用户最常抱怨的不是功能不够多，而是“太复杂 / 找不到入口”——简洁和清晰始终是第一优先级。</span></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
+    function setLang(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
+      localStorage.setItem("portfolioPureLang", lang);
+    }
+    buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    setLang(queryLang || localStorage.getItem("portfolioPureLang") || "en");
+  </script>
+</body>
+</html>

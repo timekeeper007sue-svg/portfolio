@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reframing a Fragmented Teacher Reporting Workflow</title>
+<style>
+  :root {
+    --ink: #181713;
+    --muted: #6d675f;
+    --muted-strong: #544e46;
+    --paper: #f7f3ec;
+    --panel: #edeff4;
+    --line: #d8d0c5;
+    --dark: #101312;
+    --accent: #34468c;
+    --accent-2: #9fb3e6;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: clip; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    letter-spacing: 0;
+  }
+  body[data-lang="en"] .zh,
+  body[data-lang="zh"] .en { display: none; }
+  .mono { font-family: var(--mono); font-feature-settings: "tnum" 1; white-space: nowrap; }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px max(22px, calc((100vw - 1180px) / 2));
+    background: rgba(247, 243, 236, .9);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(16px);
+  }
+  .brand,
+  .nav a,
+  .lang button {
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .nav-actions { display: flex; align-items: center; gap: 18px; }
+  .lang { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); }
+  .lang button {
+    border: 0;
+    padding: 6px 10px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .lang button.active { background: var(--dark); color: #fff; }
+  .shell { width: min(1180px, calc(100vw - 44px)); margin: 0 auto; }
+  .hero {
+    margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(420px, .95fr) minmax(0, 1.05fr);
+    gap: 34px;
+    padding: 88px max(22px, calc((100vw - 1180px) / 2));
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      linear-gradient(108deg, #0b0e15 0%, #121a2a 42%, #1c2845 100%);
+    color: #fff;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+    background-size: 92px 92px;
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .38) 42%, rgba(0, 0, 0, .7) 100%);
+    opacity: .42;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(11, 14, 21, .9) 0%, rgba(11, 14, 21, .58) 38%, rgba(11, 14, 21, .18) 72%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .eyebrow {
+    color: var(--accent-2);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 760px;
+    margin: 18px 0 0;
+    font-size: clamp(36px, 4.25vw, 60px);
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  body[data-lang="zh"] h1 {
+    max-width: 680px;
+    font-size: clamp(36px, 4.55vw, 64px);
+    line-height: 1.1;
+  }
+  .thesis {
+    max-width: 600px;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, .72);
+    font-size: clamp(15px, 1.18vw, 18px);
+    line-height: 1.5;
+  }
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }
+  .laptop-frame {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    width: min(760px, 112%);
+    aspect-ratio: 2016 / 1270;
+    margin: -8px -74px 0 0;
+    transform: translate(18px, -8px);
+    overflow: hidden;
+    filter: drop-shadow(0 30px 54px rgba(0, 0, 0, .28));
+  }
+  .laptop-composite {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .hero-flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    column-gap: 24px;
+    margin-top: 34px;
+    max-width: 600px;
+    border-top: 1px solid rgba(255, 255, 255, .18);
+  }
+  .hero-flow div {
+    min-width: 0;
+    padding: 16px 0 0;
+  }
+  .hero-flow b { display: block; color: #fff; font-size: 18px; line-height: 1.1; }
+  .hero-flow span { display: block; margin-top: 8px; color: rgba(255, 255, 255, .62); font-size: 12px; line-height: 1.25; }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+    padding: 34px 0 88px;
+    border-top: 1px solid var(--line);
+  }
+  .meta b,
+  .label,
+  .note b {
+    display: block;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  body[data-lang="zh"] .meta b,
+  body[data-lang="zh"] .label,
+  body[data-lang="zh"] .note b { letter-spacing: 0; }
+  .note b { color: var(--muted-strong); }
+  .meta b { margin-bottom: 18px; }
+  .meta span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+  section { padding: 92px 0; }
+  .section-head {
+    display: grid;
+    grid-template-columns: .72fr 1.28fr;
+    gap: 38px;
+    align-items: start;
+    margin-bottom: 36px;
+  }
+  .label {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 5px 12px 4px;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+    border-radius: 100px;
+    color: var(--accent);
+  }
+  h2 {
+    max-width: 720px;
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  body[data-lang="zh"] h2 { line-height: 1.12; }
+  .lead {
+    max-width: 600px;
+    margin: 20px 0 0;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.58;
+  }
+  figcaption {
+    margin-top: 12px;
+    max-width: 500px;
+    color: var(--muted-strong);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .note {
+    margin-top: 28px;
+    padding: 24px;
+    background: var(--panel);
+    border: 1px solid rgba(52, 70, 140, .16);
+  }
+  .note b { margin-bottom: 10px; }
+  .note p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .closing {
+    max-width: 880px;
+    margin-top: 56px;
+    padding-top: 34px;
+    border-top: 1px solid var(--line);
+  }
+  .closing .eyebrow-close {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  body[data-lang="zh"] .closing .eyebrow-close { letter-spacing: 0; }
+  .closing p {
+    margin: 0;
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1.26;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ai-evidence { margin: 0; }
+  .ai-shot { margin: 0; }
+  .ai-shot + .ai-shot { margin-top: 44px; }
+  .ai-shot-label {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--muted-strong);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  body[data-lang="zh"] .ai-shot-label { letter-spacing: .04em; }
+  .ai-shot img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .ai-shot figcaption {
+    margin-top: 12px;
+    max-width: 500px;
+    color: var(--muted-strong);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .craft-band {
+    margin-top: 40px;
+    padding-top: 26px;
+  }
+  .craft-band h3 {
+    margin: 0;
+    max-width: 620px;
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .craft-band p {
+    margin: 12px 0 0;
+    max-width: 540px;
+    color: var(--muted-strong);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .aside {
+    margin: 30px 0 0;
+    max-width: 500px;
+    color: var(--muted-strong);
+    font-size: 14px;
+    line-height: 1.62;
+  }
+  .aside b {
+    color: var(--ink);
+    font-weight: 680;
+    font-size: inherit;
+  }
+  body[data-lang="en"] .aside b::after { content: " — "; color: var(--muted); font-weight: 400; }
+  body[data-lang="zh"] .aside b::after { content: "："; color: var(--muted); font-weight: 400; }
+  .states-lead {
+    margin: 28px 0 0;
+    max-width: 500px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .states-lead b { color: var(--ink); font-weight: 600; }
+  .before-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .before-strip figure { margin: 0; min-width: 0; }
+  .before-strip img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .before-strip figcaption {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .ai-judgment { margin-top: 34px; margin-bottom: 40px; }
+  .ai-judgment .ai-context {
+    margin: 0;
+    max-width: 500px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .ai-judgment .human-lead {
+    margin: 18px 0 0;
+    max-width: 640px;
+    color: var(--ink);
+    font-size: 24px;
+    line-height: 1.26;
+    font-weight: 650;
+  }
+  .ai-judgment .human-sub {
+    margin: 12px 0 0;
+    max-width: 540px;
+    color: var(--muted-strong);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  @media (max-width: 700px) {
+    .craft-band { padding-top: 22px; }
+    .before-strip { grid-template-columns: 1fr; gap: 12px; }
+    h2 { font-size: 24px; }
+    .ai-judgment .human-lead { font-size: 21px; }
+  }
+  /* Editorial preview: reduce box density and shift the case toward portfolio storytelling. */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    align-items: stretch;
+    padding: 30px 0 92px;
+  }
+  .meta div {
+    padding: 0 24px;
+  }
+  .meta div:first-child {
+    padding-left: 0;
+  }
+  .meta div + div {
+    border-left: 1px solid var(--line);
+  }
+  .meta b {
+    display: block;
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .meta span {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .section-head {
+    display: block;
+  }
+  .framework-editorial {
+    display: grid;
+    gap: 34px;
+  }
+  .framework-hero figcaption { max-width: 500px; }
+  .framework-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
+    align-items: start;
+  }
+  .framework-hero figure {
+    margin: 0;
+  }
+  .framework-hero img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .framework-annotations {
+    display: grid;
+    gap: 22px;
+    padding-top: 4px;
+  }
+  .framework-annotations article {
+    padding: 0 0 22px;
+    border-bottom: 1px solid rgba(24, 23, 19, .13);
+  }
+  .framework-annotations article:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .framework-annotations b,
+  .rejected-item b {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 820;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .rejected-item b { color: var(--muted-strong); }
+  .framework-annotations h3 {
+    margin: 12px 0 0;
+    max-width: none;
+    font-size: 16px;
+    font-weight: 650;
+    line-height: 1.2;
+  }
+  .framework-annotations p {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .evidence-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: end;
+    padding-top: 18px;
+  }
+  .evidence-title h3 {
+    margin: 0;
+    max-width: 560px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .evidence-title p {
+    max-width: 460px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.48;
+  }
+  .rejected-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+  .rejected-item {
+    min-width: 0;
+  }
+  .rejected-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    opacity: .74;
+    filter: saturate(.84) contrast(.94);
+  }
+  .rejected-item b {
+    margin-top: 14px;
+    color: var(--muted);
+  }
+  .rejected-item h3 {
+    margin: 10px 0 0;
+    max-width: none;
+    font-size: 16px;
+    font-weight: 650;
+    line-height: 1.2;
+  }
+  .rejected-item p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.42;
+  }
+  @media (max-width: 980px) {
+    .hero,
+    .meta,
+    .section-head,
+    .framework-hero,
+    .rejected-strip {
+      grid-template-columns: 1fr;
+    }
+    .meta div { padding: 0; }
+    .meta div + div { border-left: 0; margin-top: 18px; }
+    .hero { padding: 52px 22px; }
+    .hero-visual { min-height: auto; }
+    .laptop-frame { width: min(680px, 100%); margin: 8px 0 0; transform: none; }
+    .hero-flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
+    .hero-flow div { min-height: 68px; margin-right: 0; padding: 14px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+    .hero-flow div:nth-child(2n) { border-right: 0; }
+    .hero-flow div:nth-last-child(-n + 2) { border-bottom: 0; }
+    .evidence-title { display: block; }
+    .evidence-title p { margin-top: 12px; }
+    section { padding: 70px 0; }
+    .label { position: static; }
+  }
+/* —— 与主页一致的全局 nav 组件 —— */
+    .nav .brand{font-size:13px;font-weight:760;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+    .nav .nav-actions{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:13px;}
+    .nav .nav-actions a{color:var(--muted);}
+    .nav .nav-actions a:hover{color:var(--ink);}
+    .nav .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;padding:0;gap:0;}
+    .nav .lang button{appearance:none;border:0;background:transparent;color:var(--muted);padding:7px 10px;font:inherit;cursor:pointer;}
+    .nav .lang button.active{background:var(--ink);color:var(--paper);}
+  </style>
+</head>
+<body data-lang="en">
+  <nav class="nav" aria-label="Portfolio navigation">
+    <a class="brand" href="../index.html"><span class="en">Skylar Li · Portfolio</span><span class="zh">Skylar Li · 作品集</span></a>
+    <div class="nav-actions">
+      <a href="../index.html#work"><span class="en">Work</span><span class="zh">作品</span></a>
+      <a href="../resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
+      <a href="../index.html#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+      <div class="lang" aria-label="Language switch">
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="en">B2B Workflow Design · AI-Assisted Delivery</span><span class="zh">B 端流程设计 · AI 辅助交付</span></div>
+        <h1><span class="en">Reframing a Fragmented Teacher Reporting Workflow</span><span class="zh">重构割裂的教师报告工作流</span></h1>
+        <p class="thesis">
+          <span class="en">Redesigned report lists, analytics pages, and classroom review flows into one reusable framework, with AI-assisted demos for faster product-engineering alignment.</span>
+          <span class="zh">将分散的报告列表、学情分析页与课堂讲评流程收敛为一套可复用框架，并以 AI 辅助 demo 加快产研对齐。</span>
+        </p>
+        <div class="hero-flow" aria-label="Project outcome signals">
+          <div><b><span class="en">8+</span><span class="zh">8+</span></b><span><span class="en">Report types</span><span class="zh">报告类型</span></span></div>
+          <div><b><span class="en">Launched</span><span class="zh">已上线</span></b><span><span class="en">Late April</span><span class="zh">4 月底</span></span></div>
+          <div><b><span class="en">1 framework</span><span class="zh">1 套框架</span></b><span><span class="en">Unified design</span><span class="zh">统一设计</span></span></div>
+          <div><b><span class="en">1 codebase</span><span class="zh">1 套代码</span></b><span><span class="en">Reused in build</span><span class="zh">研发复用</span></span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Unified report evidence preview">
+        <figure class="laptop-frame">
+          <img class="laptop-composite" src="homework-assets/generated/macbook-cover-filled.png" alt="Representative report workflow shown inside a MacBook frame">
+        </figure>
+      </div>
+    </header>
+
+    <div class="meta" aria-label="Case metadata">
+      <div><b><span class="en">Role</span><span class="zh">角色</span></b><span><span class="en">Self-initiated · IA redesign · AI-assisted demo delivery</span><span class="zh">自驱立项 · 信息架构重构 · AI 辅助 demo 交付</span></span></div>
+      <div><b><span class="en">Scope</span><span class="zh">范围</span></b><span><span class="en">Report lists, detail pages, review pages, class / grade views</span><span class="zh">报告列表、详情页、讲评页、班级 / 年级视角</span></span></div>
+      <div><b><span class="en">Team</span><span class="zh">协作</span></b><span><span class="en">Product, design, frontend; my framework proposal was adopted</span><span class="zh">产品、设计、前端协作；我的报告框架方案被采纳</span></span></div>
+      <div><b><span class="en">Status</span><span class="zh">状态</span></b><span><span class="en">Demos shipped in ~9 days; launched late April</span><span class="zh">约 9 天交付视觉 demo；4 月底上线</span></span></div>
+    </div>
+
+    <section id="brief">
+      <div class="section-head">
+        <div class="label"><span class="en">01 — The Brief</span><span class="zh">01 — 项目命题</span></div>
+        <div>
+          <h2><span class="en">The issue was not one report. It was a fragmented reporting path.</span><span class="zh">问题不是某一份报告，而是一条割裂的报告路径。</span></h2>
+          <p class="lead">
+            <span class="en">I noticed this in daily use: teachers were moving a single report across many inconsistent screens, relearning each layout. After talking it through with product, we turned it into a project. The redesign started before the report page itself — unifying how each report type is listed, opened, drafted, and recovered, so teachers move through one set of rules.</span>
+            <span class="zh">这并非指派的需求，而是我主动发现并立项的：日常使用中，我注意到教师处理一份报告需在多套各异的界面间反复切换，每次都要重新熟悉页面。于是我将这一碎片化的体验问题立项 —— 一次面向教师端报告工作流的重构，覆盖报告列表、详情分析、班级 / 年级视角与课堂讲评入口。重构从报告详情页之前便已开始：统一全部作业、已生成报告、草稿箱与回收站等入口状态，使教师能以同一套规则查找、进入并恢复报告。</span>
+          </p>
+        </div>
+      </div>
+      <p class="states-lead"><span class="en">Before unifying anything, I audited the workflow feature by feature — the same action behaved differently across types: exception handling showed a button on some reports and nothing on others, downloads varied in items and naming, answer-distribution panels expanded in different places. Three patterns fell out — <b>fragmented entry points</b>, <b>inconsistent detail structures</b>, and <b>repeated design and build work</b> for every type:</span><span class="zh">动手统一之前，我先逐功能做了一次差异审计 —— 同一个动作在不同报告里各做一套：扫描异常有的报告有按钮、有的没有，下载项和命名不一致，答题分布的展开位置也各不相同。归纳出三类问题 —— <b>入口割裂</b>、<b>详情结构不一</b>、以及<b>每类都要重复设计与落地</b>：</span></p>
+      <div class="before-strip" aria-label="Report types before the redesign">
+        <figure><img src="homework-assets/hw-精准练-blurred.jpg" alt="AI practice report before redesign"><figcaption><span class="en">AI practice report</span><span class="zh">AI 精准练报告</span></figcaption></figure>
+        <figure><img src="homework-assets/hw-批阅机作业-blurred.jpg" alt="Grading-machine homework report before redesign"><figcaption><span class="en">Grading-machine homework</span><span class="zh">批阅机作业报告</span></figcaption></figure>
+        <figure><img src="homework-assets/hw-数智作业-blurred.jpg" alt="Digital homework report before redesign"><figcaption><span class="en">Digital homework report</span><span class="zh">数智作业报告</span></figcaption></figure>
+      </div>
+      <p class="aside">
+        <b><span class="en">Teacher scenario</span><span class="zh">教师使用路径</span></b><span class="en">Teachers needed one predictable path from report entry to analysis and action: find the right report, switch class or grade views, read performance signals, then prepare review or diagnose student issues.</span><span class="zh">教师需要一条稳定且可预期的路径：定位对应报告，进入班级或年级视角，查看表现与薄弱点，再进入讲评备课或学生问题诊断。</span>
+      </p>
+    </section>
+
+    <section id="decision">
+      <div class="section-head">
+        <div class="label"><span class="en">02 — Framework Decision</span><span class="zh">02 — 框架判断</span></div>
+        <div>
+          <h2><span class="en">Unification was a judgment call, not a template exercise.</span><span class="zh">统一并非套用模板，而是判断什么该收敛。</span></h2>
+          <p class="lead">
+            <span class="en">The selected framework unified the path around the report — find, enter, navigate, act — while leaving each report’s modules free to differ. Get that line wrong and 8+ report types, each split across class and grade views, lock into one rigid structure.</span>
+            <span class="zh">最终框架统一的是报告的外层路径 —— 查找、进入、导航、操作 —— 同时让各报告的模块保持差异。由于这套外层要同时支撑 8+ 种报告（每种再分班级 / 年级两层），边界一旦界定不当，后续扩展都会受制于它。</span>
+          </p>
+        </div>
+      </div>
+      <div class="framework-editorial">
+        <div class="framework-hero">
+          <figure>
+            <img src="homework-assets/framework-3-blurred.jpg" alt="Selected report framework">
+            <figcaption>
+              <span class="en">Selected framework: a shared report path with room for report-specific modules.</span>
+              <span class="zh">最终框架：共用报告路径，同时保留不同报告的模块差异。</span>
+            </figcaption>
+            <p class="aside">
+              <b><span class="en">Tradeoff</span><span class="zh">代价</span></b><span class="en">extra upfront structure: the shared shell needed clearer local navigation rules, but it made later report types easier to extend.</span><span class="zh">前期结构定义更重，共用外壳需要更清晰的局部导航规则，但后续报告更容易扩展。</span>
+            </p>
+          </figure>
+          <div class="framework-annotations" aria-label="Selected framework annotations">
+            <article>
+              <b>01</b>
+              <h3><span class="en">Report navigation</span><span class="zh">报告导航</span></h3>
+              <p><span class="en">One local structure holds overview, review, class / grade views, and student details.</span><span class="zh">以一套局部结构承载总览、讲评、班级 / 年级视角与学生详情。</span></p>
+            </article>
+            <article>
+              <b>02</b>
+              <h3><span class="en">Shared actions</span><span class="zh">共用操作</span></h3>
+              <p><span class="en">Export, sharing, and review entry points stay centralized across report types.</span><span class="zh">导出、分享与讲评入口在不同报告中保持集中。</span></p>
+            </article>
+            <article>
+              <b>03</b>
+              <h3><span class="en">Flexible modules</span><span class="zh">弹性模块</span></h3>
+              <p><span class="en">Analytics, question types, and review content can vary inside the shared framework.</span><span class="zh">分析、题型与讲评内容仍可在共用框架内变化。</span></p>
+            </article>
+          </div>
+        </div>
+        <div class="evidence-title">
+          <h3><span class="en">Other directions were useful, but each broke one requirement.</span><span class="zh">其他方向有参考价值，但都牺牲了一个关键要求。</span></h3>
+          <p>
+            <span class="en">I evaluated each direction against three requirements: report-task focus, clear internal report navigation, and enough space for analytics and review.</span>
+            <span class="zh">我以三条要求评估每个方向：报告任务是否聚焦、报告内部导航是否清晰、分析与讲评空间是否足够。</span>
+          </p>
+        </div>
+        <div class="rejected-strip" aria-label="Explored framework directions">
+          <article class="rejected-item">
+            <img src="homework-assets/framework-1-blurred.jpg" alt="Explored full sidebar direction">
+            <b><span class="en">Explored 01</span><span class="zh">探索 01</span></b>
+            <h3><span class="en">Full sidebar</span><span class="zh">完整侧栏</span></h3>
+            <p><span class="en">Too close to the legacy structure; report-task focus remained diluted.</span><span class="zh">过于延续旧结构，报告任务聚焦不足。</span></p>
+          </article>
+          <article class="rejected-item">
+            <img src="homework-assets/framework-2-blurred.jpg" alt="Explored icon navigation direction">
+            <b><span class="en">Explored 02</span><span class="zh">探索 02</span></b>
+            <h3><span class="en">Icon nav + report header</span><span class="zh">窄导航 + 报告头部</span></h3>
+            <p><span class="en">Fit the new shell, but internal report navigation remained underdefined.</span><span class="zh">贴合新版外壳，但报告内部导航仍不够清晰。</span></p>
+          </article>
+          <article class="rejected-item">
+            <img src="homework-assets/framework-4-blurred.jpg" alt="Explored metadata panel direction">
+            <b><span class="en">Explored 03</span><span class="zh">探索 03</span></b>
+            <h3><span class="en">Information-heavy side panel</span><span class="zh">信息强化侧栏</span></h3>
+            <p><span class="en">Clarified metadata, but compressed analytics and review space.</span><span class="zh">元信息更集中，但压缩了分析与讲评空间。</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai">
+      <div class="section-head">
+        <div class="label"><span class="en">03 — AI Boundary</span><span class="zh">03 — AI 边界</span></div>
+        <div>
+          <h2><span class="en">AI was useful after I decided where not to use it.</span><span class="zh">AI 真正有用，是在我先判断哪些环节不能交给它之后。</span></h2>
+          <p class="lead">
+            <span class="en">I split the work by decision risk: the higher the cost of a wrong call, the less I let AI decide.</span>
+            <span class="zh">我按决策风险拆分工作：判断失误的代价越高，越不交给 AI。</span>
+          </p>
+        </div>
+      </div>
+      <div class="ai-judgment">
+        <p class="ai-context"><span class="en">AI handled the routine pages — list states, and the report IA inside a structure I set first.</span><span class="zh">常规页面交由 AI —— 列表页、状态页，以及在我预先确定的结构内的报告 IA。</span></p>
+        <p class="human-lead"><span class="en">The classroom review is where design judgment had to lead.</span><span class="zh">课堂讲评，是设计判断必须主导之处。</span></p>
+        <p class="human-sub"><span class="en">It decides how a teacher runs the lesson — not something to hand off. Iterating with AI also trapped me inside what it could already produce; turning it off was how I kept room to diverge.</span><span class="zh">它决定教师如何组织这堂讲评 —— 不应交由 AI 代劳。而且反复借助 AI 迭代，思路容易被局限在它已能产出的范围之内；暂时停用，是为了保留发散思考的空间。</span></p>
+      </div>
+      <div class="ai-evidence">
+      <figure class="ai-shot">
+        <span class="ai-shot-label"><span class="en">AI draft</span><span class="zh">AI 初版</span></span>
+        <img src="homework-assets/review-ai.jpg" alt="AI generated review draft">
+        <figcaption><span class="en">AI’s first pass read like an analysis report: question stats, option bars, and generic actions were present, but the page did not show which students to address or help teachers build a review sequence.</span><span class="zh">AI 初版更像一份分析报告：题目统计、选项分布与通用操作一应俱全，却没有直接呈现应讲评哪些学生，也未帮助教师组织讲评顺序。</span></figcaption>
+      </figure>
+      <figure class="ai-shot">
+        <span class="ai-shot-label"><span class="en">Redesigned review flow</span><span class="zh">重构后的讲评流程</span></span>
+        <img src="homework-assets/review-design.jpg" alt="Designed review flow">
+        <figcaption><span class="en">AI’s draft couldn’t meet the experience bar, so I rebuilt the review flow by hand: a score-rate question rail, the students behind each option, and a “mark for review” action that let teachers actually run the review.</span><span class="zh">AI 的草稿无法满足体验要求，因此这条讲评流程由我手工重做：按得分率排列的题目导航、每个选项背后的学生名单，以及让教师得以真正开展讲评的“标记讲评”。</span></figcaption>
+      </figure>
+      <div class="craft-band">
+        <h3><span class="en">AI output was draft material, not final design.</span><span class="zh">AI 产物是草稿，而非最终设计。</span></h3>
+        <p><span class="en">Reusable components were cleaned by hand, then written back to the design library through an <span class="mono">MCP</span>-based workflow — and the branch and <span class="mono">API</span> changes were handed to engineering.</span><span class="zh">可复用组件经人工清理后，再经由基于 <span class="mono">MCP</span> 的流程回写至设计库；分支与接口改动随后交付研发。</span></p>
+      </div>
+      </div>
+    </section>
+
+    <section id="outcome">
+      <div class="section-head">
+        <div class="label"><span class="en">04 — Outcome</span><span class="zh">04 — 结果信号</span></div>
+        <div>
+          <h2><span class="en">The result was a reusable delivery method, not just a redesign.</span><span class="zh">结果不止于改版，而是一套可复用的交付方式。</span></h2>
+          <p class="lead">
+            <span class="en">The result was structural, and the reuse is concrete, not aspirational: empty and loading states are no longer drawn per report — they reuse one shared set from the codebase; and components built while prototyping are written back to the design library through an <span class="mono">MCP</span> workflow, so the next report type starts from a fuller kit, not a blank page.</span>
+            <span class="zh">结果是结构性的，且复用切实可见、并非口号：空状态与加载态不再为每种报告单独绘制，而是复用代码仓中的同一套；在 demo 中新建的组件又经 <span class="mono">MCP</span> 流程回写至设计库 —— 后续报告可基于更完整的组件库展开，无需从零开始。</span>
+          </p>
+        </div>
+      </div>
+      <p class="aside">
+        <b><span class="en">On the numbers</span><span class="zh">关于这些数字</span></b><span class="en">The <span class="mono">140k+</span> monthly reach is product scale, not redesign-driven growth. I don’t claim a percentage impact, because rework reduction was never formally measured.</span><span class="zh"><span class="mono">14 万+</span> 月触达是产品规模，不应归因于本次改版。返工减少未经正式统计，故不声明百分比影响。</span>
+      </p>
+      <p class="aside">
+        <b><span class="en">What I’d do differently</span><span class="zh">复盘</span></b><span class="en">Early on I hadn’t balanced fast delivery against high fidelity, and a stretch of work went the wrong way before I set the rule — stabilize the framework first, fill content second, keep a hand-drawn fallback for the hardest pages. The redesign also still needs real validation: the signal to watch is how teachers migrate to the new framework, not the absence of complaints.</span><span class="zh">项目初期未能先对齐“快速交付”与“高完成度”，中途出现过偏差；此后我将其收敛为一条原则 —— 先稳定框架，再填充内容，最难的页面保留一份手绘稿兜底。此次改版也仍需真正验证：真正应关注的是教师在新框架下的迁移与使用情况，而非“无投诉”。</span>
+      </p>
+      <div class="closing">
+        <span class="eyebrow-close"><span class="en">In closing</span><span class="zh">写在最后</span></span>
+        <p><span class="en">The real design decision was not whether to use AI. It was deciding what to hand off, what to unify, and what needed to stay in the designer’s hands.</span><span class="zh">真正的设计判断不在于是否使用 AI，而在于：哪些可以交付出去、哪些需要统一、哪些必须留在设计师手中。</span></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const root = document.body;
+    const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
+    function setLang(lang) {
+      root.dataset.lang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.setLang === lang));
+      try { localStorage.setItem("portfolioPureLang", lang); } catch (err) {}
+    }
+    buttons.forEach(btn => btn.addEventListener("click", () => setLang(btn.dataset.setLang)));
+    let stored = "en";
+    try { stored = localStorage.getItem("portfolioPureLang") || "en"; } catch (err) {}
+    setLang(stored);
+  </script>
+</body>
+</html>

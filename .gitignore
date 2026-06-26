@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+.playwright-mcp/
+**/.playwright-mcp/
+*.log
+Thumbs.db
+.vercel/
+node_modules/

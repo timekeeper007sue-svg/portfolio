@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>document.documentElement.className += " js";</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340..560&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Skylar Li · Resume</title>
+  <style>
+    :root {
+      --paper: #f7f3ec;
+      --ink: #181713;
+      --muted: #6d675f;
+      --line: #d8d0c5;
+      --soft: #ece5dc;
+      --olive: #6a7358;
+      --clay: #a15f3f;
+      --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+      --rail: 240px;
+      --gap: 40px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-en);
+      line-height: 1.55;
+    }
+    body[data-lang="zh"] { font-family: var(--font-zh); }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    .zh { display: none; }
+    body[data-lang="zh"] .en { display: none; }
+    body[data-lang="zh"] .zh { display: inline; }
+
+    .shell { width: min(1120px, calc(100vw - 44px)); margin: 0 auto; }
+
+    /* —— nav (DNA = index.html) —— */
+    .nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      padding: 18px max(22px, calc((100vw - 1120px) / 2));
+      border-bottom: 1px solid rgba(24, 23, 19, .12);
+      background: rgba(247, 243, 236, .9);
+      backdrop-filter: blur(18px);
+    }
+    .brand { font-size: 13px; font-weight: 760; letter-spacing: .04em; text-transform: uppercase; }
+    .links { display: flex; align-items: center; gap: 18px; color: var(--muted); font-size: 13px; }
+    .links a:hover { color: var(--ink); }
+    .links a.active { color: var(--ink); font-weight: 600; }
+    .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+    .lang button { appearance: none; border: 0; background: transparent; color: var(--muted); padding: 7px 10px; font: inherit; cursor: pointer; }
+    .lang button.active { background: var(--ink); color: var(--paper); }
+
+    /* —— headings —— */
+    h1 { font-family: var(--font-display); font-optical-sizing: auto; font-size: clamp(40px, 6vw, 76px); line-height: 1.0; letter-spacing: -.01em; font-weight: 420; }
+    h2 { font-family: var(--font-display); font-optical-sizing: auto; font-size: clamp(26px, 3vw, 36px); line-height: 1.05; letter-spacing: -.01em; font-weight: 440; }
+    .eyebrow { color: var(--olive); font-size: 13px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    body[data-lang="zh"] .eyebrow { letter-spacing: .04em; }
+
+    /* —— hero —— */
+    .hero { padding: 84px 0 56px; display: grid; gap: 22px; align-content: start; }
+    .hero h1 { max-width: 12ch; }
+    .hero-sub { max-width: 640px; font-size: clamp(18px, 1.9vw, 22px); line-height: 1.5; color: var(--ink); }
+
+    /* —— section frame —— */
+    section { padding: 40px 0; border-top: 1px solid var(--line); }
+    .sec-grid { display: grid; grid-template-columns: var(--rail) 1fr; gap: var(--gap); align-items: start; }
+    @media (max-width: 860px) { .sec-grid { grid-template-columns: 1fr; gap: 16px; } }
+    .sec-grid > h2 { position: sticky; top: 88px; }
+
+    /* —— profile —— */
+    .profile-list { display: grid; gap: 26px; }
+    .profile-list .lead { display: block; font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--clay); text-transform: uppercase; margin-bottom: 7px; }
+    body[data-lang="zh"] .profile-list .lead { letter-spacing: 0; }
+    .profile-list p { max-width: 760px; color: var(--ink); }
+
+    /* —— experience (CV timeline) —— */
+    .xp { display: grid; gap: 44px; }
+    .xp-entry { display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: start; }
+    @media (max-width: 860px) { .xp-entry { grid-template-columns: 1fr; gap: 12px; } }
+    .xp-side .date { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+    .xp-side .org { margin-top: 6px; font-size: 18px; font-weight: 700; }
+    .xp-side .role { margin-top: 2px; font-size: 14px; color: var(--muted); }
+    .xp-body { display: grid; gap: 14px; }
+    .xp-body p { max-width: 780px; color: var(--ink); }
+
+    /* —— skills —— */
+    .skills { display: grid; gap: 22px; }
+    .skill-row .sl { display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--olive); text-transform: uppercase; margin-bottom: 6px; }
+    body[data-lang="zh"] .skill-row .sl { letter-spacing: 0; }
+    .skill-row p { max-width: 820px; color: var(--ink); }
+
+    /* —— education —— */
+    .edu { display: grid; gap: 16px; }
+    .edu-row { display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: baseline; }
+    @media (max-width: 860px) { .edu-row { grid-template-columns: 1fr; gap: 4px; } }
+    .edu-row .date { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: var(--muted); }
+    .edu-row .school b { font-weight: 700; }
+    .edu-row .school span.deg { color: var(--muted); }
+
+    /* —— contact —— */
+    .contact-grid { display: flex; flex-wrap: wrap; gap: 14px 40px; }
+    .contact-grid .ci .cl { display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--olive); text-transform: uppercase; margin-bottom: 5px; }
+    body[data-lang="zh"] .contact-grid .ci .cl { letter-spacing: 0; }
+    .contact-grid .ci a, .contact-grid .ci span.v { font-size: 17px; }
+    .contact-grid .ci a:hover { color: var(--clay); }
+
+    footer { padding: 40px 0 80px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+  </style>
+</head>
+<body data-lang="en">
+  <nav class="nav">
+    <a class="brand" href="index.html#top"><span class="en">Skylar Li · Portfolio</span><span class="zh">Skylar Li · 作品集</span></a>
+    <div class="links">
+      <a href="index.html#work"><span class="en">Work</span><span class="zh">作品</span></a>
+      <a class="active" href="resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
+      <a href="index.html#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+      <div class="lang" aria-label="Language switcher">
+        <button type="button" data-lang-button="en" onclick="setLang('en')">EN</button>
+        <button type="button" data-lang-button="zh" onclick="setLang('zh')">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow"><span class="en">AI Product Designer</span><span class="zh">AI 产品设计师</span></div>
+      <h1>Skylar Li</h1>
+      <p class="hero-sub"><span class="en">Translate ambiguous user and business problems into task flows, prototypes, design systems, and shippable experiences.</span><span class="zh">把模糊的用户与业务问题，做成任务流、原型、设计系统和能上线的体验。</span></p>
+    </header>
+
+    <!-- Profile -->
+    <section>
+      <div class="sec-grid">
+        <h2><span class="en">Profile</span><span class="zh">自我评价</span></h2>
+        <div class="profile-list">
+          <div>
+            <span class="lead"><span class="en">AI Product Design</span><span class="zh">AI 产品设计与落地</span></span>
+            <p><span class="en">Nearly five years in product and interaction design. I spot where AI can add leverage and turn it into product experiences that are understandable, reviewable, and iterable — closing the loop from problem definition through task-flow design and interactive prototypes to a shipped AI tool.</span><span class="zh">近 5 年产品与交互设计经验，擅长从业务场景中识别 AI 可介入的提效机会，并转化为可理解、可审查、可迭代的产品体验；能完成从问题定义、任务流设计、交互原型到 AI 工具落地的闭环。</span></p>
+          </div>
+          <div>
+            <span class="lead"><span class="en">Data-informed Design</span><span class="zh">用户与数据</span></span>
+            <p><span class="en">Pair quantitative data (NPS, behavioral metrics) with qualitative insight (user interviews, frontline feedback) to locate the real pain behind the numbers and drive iteration.</span><span class="zh">善于结合定量数据（NPS、行为指标）与定性洞察（用户访谈、一线反馈）评估体验，定位数据背后的真实痛点，推动迭代优化。</span></p>
+          </div>
+          <div>
+            <span class="lead"><span class="en">Delivery &amp; Collaboration</span><span class="zh">落地与协作</span></span>
+            <p><span class="en">Drive cross-functional execution — partnering with product, engineering, and algorithm teams to ship; align goals and balance priorities in complex, multi-stakeholder projects so design actually reaches users.</span><span class="zh">具备跨团队推进能力，联合产品、研发、算法将方案落地上线；在多方协作、需求分歧的复杂项目中对齐目标、平衡优先级，确保设计真正交付到用户。</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section>
+      <div class="sec-grid">
+        <h2><span class="en">Experience</span><span class="zh">工作经历</span></h2>
+        <div class="xp">
+
+          <div class="xp-entry">
+            <div class="xp-side">
+              <div class="date">2026.02 – Present</div>
+              <div class="org"><span class="en">iFLYTEK</span><span class="zh">科大讯飞</span></div>
+              <div class="role"><span class="en">Product Designer</span><span class="zh">产品设计师</span></div>
+            </div>
+            <div class="xp-body">
+              <p><span class="en">Design and prototyping for AI-assisted research tools — building evidence traceability, human-review states, and reusable workflows so AI output can be checked, edited, and reused. Analyze NPS and behavioral data for education and teacher-facing products, translating it into information architecture, task flows, and interaction design.</span><span class="zh">负责 AI 辅助研究工具的设计与原型——搭建证据溯源、人工审查与可复用工作流，让 AI 输出可被检查、编辑、复用；并基于 NPS 与行为数据分析教师端／教育平台，转化为信息架构、任务流与交互方案。</span></p>
+            </div>
+          </div>
+
+          <div class="xp-entry">
+            <div class="xp-side">
+              <div class="date">2021.11 – 2026.02</div>
+              <div class="org"><span class="en">Hisense</span><span class="zh">海信集团</span></div>
+              <div class="role"><span class="en">Product Designer</span><span class="zh">产品设计师</span></div>
+            </div>
+            <div class="xp-body">
+              <p><span class="en">Experience design for Live TV, Game Mode, screensaver, and home page, plus subscription, registration, and payment flows for overseas TV and mobile. Launched 12 core modules with 30%+ usage growth; registration and payment optimization lifted conversion +18% and cut error rate −24%; NPS-driven work improved satisfaction +22% and resolved 38 key experience issues.</span><span class="zh">负责 Live TV、Game Mode、屏保、首页的体验设计，以及海外 TV／移动端的订阅、注册、支付流程。核心模块上线 12 个、使用率提升 30%+；注册／支付优化使转化率 +18%、错误率 −24%；NPS 驱动的体验优化使满意度 +22%、解决关键体验问题 38 条。</span></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section>
+      <div class="sec-grid">
+        <h2><span class="en">Skills</span><span class="zh">相关技能</span></h2>
+        <div class="skills">
+          <div class="skill-row">
+            <span class="sl"><span class="en">Product Design</span><span class="zh">产品与设计</span></span>
+            <p><span class="en">UX strategy, interaction design, information architecture, user flows, prototyping, design systems, and cross-device experience; competitor analysis, A/B and feature testing; Figma, MasterGo, Axure.</span><span class="zh">产品与交互设计、信息架构、任务流、原型、设计系统、跨设备体验；熟悉竞品分析、A/B 与功能测试；精通 Figma／MasterGo／Axure。</span></p>
+          </div>
+          <div class="skill-row">
+            <span class="sl"><span class="en">AI Design &amp; Prototyping</span><span class="zh">AI 设计与原型</span></span>
+            <p><span class="en">Building AI tool-chains for competitor analysis, data analysis, and report generation; prompt engineering and AI-assisted design/research workflows; Claude Code CLI and Codex for rapid prototyping (vibe coding).</span><span class="zh">面向竞品分析、数据分析与报告生成的 AI 工具链搭建，Prompt 工程与 AI 辅助设计／研究工作流；熟练 Claude Code CLI、Codex，以 Vibe Coding 快速实现原型与工具。</span></p>
+          </div>
+          <div class="skill-row">
+            <span class="sl"><span class="en">Research &amp; Collaboration</span><span class="zh">研究与协作</span></span>
+            <p><span class="en">NPS analysis, user interviews, behavior-data analysis, usability diagnosis, A/B testing and SQL basics; fluent professional English — two years of English-taught study at Northeastern and a long-term English working environment at Hisense, covering English meetings and PRD writing.</span><span class="zh">NPS 分析、用户访谈、行为数据分析、可用性诊断、A/B 测试与 SQL 基础；英语可作为工作语言，听说读写流利——东北大学两年全英文授课、海信任职期间长期英文工作环境，胜任英文会议与 PRD 撰写。</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section>
+      <div class="sec-grid">
+        <h2><span class="en">Education</span><span class="zh">教育经历</span></h2>
+        <div class="edu">
+          <div class="edu-row">
+            <div class="date">2019.09 – 2021.07</div>
+            <div class="school"><b><span class="en">Northeastern University</span><span class="zh">美国东北大学</span></b> · <span class="deg"><span class="en">M.S. Digital Media (Interaction Design)</span><span class="zh">数字媒体（交互设计）· 硕士</span></span></div>
+          </div>
+          <div class="edu-row">
+            <div class="date">2015.09 – 2019.07</div>
+            <div class="school"><b><span class="en">Nanjing University of Posts and Telecommunications</span><span class="zh">南京邮电大学</span></b> · <span class="deg"><span class="en">B.S. Digital Media Technology</span><span class="zh">数字媒体技术 · 学士</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section>
+      <div class="sec-grid">
+        <h2><span class="en">Contact</span><span class="zh">联系方式</span></h2>
+        <div class="contact-grid">
+          <div class="ci">
+            <span class="cl"><span class="en">Email</span><span class="zh">邮箱</span></span>
+            <a href="mailto:zhuoxiuli01@sina.com">zhuoxiuli01@sina.com</a>
+          </div>
+          <div class="ci">
+            <span class="cl"><span class="en">Phone</span><span class="zh">电话</span></span>
+            <span class="v">15951876517</span>
+          </div>
+          <div class="ci">
+            <span class="cl"><span class="en">Location</span><span class="zh">所在地</span></span>
+            <span class="v"><span class="en">Hefei, China</span><span class="zh">合肥</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="en">© 2026 Skylar Li · AI Product Designer</span><span class="zh">© 2026 Skylar Li · AI 产品设计师</span>
+    </footer>
+  </main>
+
+  <script>
+    function setLang(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      localStorage.setItem("portfolioPureLang", lang);
+      document.querySelectorAll("[data-lang-button]").forEach(function (button) {
+        button.classList.toggle("active", button.dataset.langButton === lang);
+      });
+    }
+    setLang(localStorage.getItem("portfolioPureLang") || "en");
+  </script>
+</body>
+</html>
