@@ -759,18 +759,16 @@
   </main>
 
   <script>
-    const root = document.body;
     const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
     function setLang(lang) {
-      root.dataset.lang = lang;
+      document.body.dataset.lang = lang;
       document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-      buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.setLang === lang));
-      try { localStorage.setItem("portfolioPureLang", lang); } catch (err) {}
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
+      localStorage.setItem("portfolioPureLang", lang);
     }
-    buttons.forEach(btn => btn.addEventListener("click", () => setLang(btn.dataset.setLang)));
-    let stored = "en";
-    try { stored = localStorage.getItem("portfolioPureLang") || "en"; } catch (err) {}
-    setLang(stored);
+    buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    setLang(queryLang || localStorage.getItem("portfolioPureLang") || "en");
   </script>
 </body>
 </html>

@@ -1337,16 +1337,16 @@
   </main>
 
   <script>
-    const root = document.body;
     const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
-    const saved = localStorage.getItem("portfolioPureLang") || "en";
     function setLang(lang) {
-      root.dataset.lang = lang;
-      localStorage.setItem("portfolioPureLang", lang);
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
       buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
+      localStorage.setItem("portfolioPureLang", lang);
     }
     buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
-    setLang(saved);
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    setLang(queryLang || localStorage.getItem("portfolioPureLang") || "en");
   </script>
 </body>
 </html>

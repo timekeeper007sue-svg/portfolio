@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BugBox · AIGC Visual Product Direction</title>
+  <style>
+    :root {
+      --ink: #181713;
+      --paper: #f7f3ec;
+      --muted: #6d675f;
+      --line: #d8d0c5;
+      --dark: #101012;
+      --mist: #d9c5c0;
+      --accent: #f3b7bd;
+      --cyan: #27d7df;
+      --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-en);
+      line-height: 1.55;
+    }
+    body[data-lang="zh"] { font-family: var(--font-zh); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    p, h1, h2, h3, figure { margin: 0; }
+    .zh { display: none; }
+    body[data-lang="zh"] .en { display: none; }
+    body[data-lang="zh"] .zh { display: inline; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 18px max(22px, calc((100vw - 1180px) / 2));
+      background: rgba(16, 16, 18, .88);
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255, 255, 255, .68);
+      font-size: 13px;
+    }
+    .nav-actions a:hover { color: #fff; }
+    .lang {
+      display: inline-flex;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .lang button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 6px 10px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .lang button.active {
+      background: #fff;
+      color: var(--dark);
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 44px));
+      margin: 0 auto;
+    }
+    .hero {
+      margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2);
+      display: grid;
+      grid-template-columns: minmax(340px, .58fr) minmax(0, 1.42fr);
+      align-items: center;
+      gap: 0;
+      padding: 68px max(22px, calc((100vw - 1320px) / 2));
+      background: #101012;
+      color: #fff;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      padding: 42px 34px;
+      background: rgba(16, 16, 18, .62);
+      backdrop-filter: blur(18px);
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin-top: 18px;
+      max-width: 600px;
+      font-size: clamp(58px, 8vw, 122px);
+      line-height: .88;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+    body[data-lang="zh"] h1 {
+      max-width: 520px;
+      font-size: clamp(46px, 6.7vw, 86px);
+      line-height: 1.08;
+      font-weight: 760;
+    }
+    .thesis {
+      margin-top: 24px;
+      max-width: 590px;
+      color: rgba(255, 255, 255, .72);
+      font-size: clamp(19px, 2.2vw, 29px);
+      line-height: 1.32;
+    }
+    .hero-art {
+      margin: 0;
+      background: #101012;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-art img {
+      width: 86%;
+      height: auto;
+      margin-left: auto;
+      display: block;
+    }
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to right, #101012 0%, rgba(16, 16, 18, .5) 26%, transparent 54%);
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px;
+      padding: 34px 0 88px;
+      border-top: 1px solid var(--line);
+    }
+    .meta div {
+      min-height: auto;
+      padding: 0;
+      background: transparent;
+    }
+    .meta b {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--ink);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .meta span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    section {
+      border-top: 1px solid var(--line);
+      padding: 92px 0;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 38px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+    .label {
+      position: sticky;
+      top: 92px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      max-width: 850px;
+      font-size: clamp(38px, 5.5vw, 76px);
+      line-height: .98;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+    body[data-lang="zh"] h2 {
+      line-height: 1.12;
+      font-weight: 740;
+    }
+    .lead {
+      max-width: 760px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+    @media (min-width: 861px) {
+      .matrix { margin-left: calc((100% - 38px) * 0.36 + 38px); }
+    }
+    .matrix article {
+      padding: 0;
+    }
+    .matrix b {
+      display: block;
+      margin-bottom: 14px;
+      color: #b35f6c;
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .matrix h3 {
+      max-width: 320px;
+      font-size: 28px;
+      line-height: 1.08;
+      font-weight: 760;
+    }
+    .matrix p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.48;
+    }
+
+    .dark-band {
+      padding: 92px 0;
+    }
+    .dark-band .label,
+    .dark-band .lead,
+    .dark-band p {
+      color: var(--muted);
+    }
+    .dark-band .matrix article {
+      background: transparent;
+      position: relative;
+    }
+    .dark-band .matrix article:not(:last-child)::after {
+      content: "\2192";
+      position: absolute;
+      right: -26px;
+      top: -1px;
+      color: #b35f6c;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .dark-band .matrix b { color: #b35f6c; }
+    .dark-band .matrix h3 { color: var(--ink); }
+
+    #archive { padding-bottom: 0; }
+    .gallery {
+      display: grid;
+      gap: 34px;
+      margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2);
+      padding: 48px max(22px, calc((100vw - 1280px) / 2)) 92px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(243, 183, 189, .12), transparent 34%),
+        #202125;
+    }
+    .gallery figure {
+      margin: 0;
+      background: transparent;
+    }
+    .gallery img {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      background: #202125;
+    }
+    .note {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        position: static;
+        padding: 16px 22px;
+      }
+      .nav-actions a { display: none; }
+      .hero,
+      .meta,
+      .section-head,
+      .matrix {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding: 0;
+      }
+      .hero-copy {
+        margin: 22px;
+        padding: 32px 24px;
+      }
+      .hero-art {
+        min-height: auto;
+      }
+      .hero-art img {
+        height: auto;
+      }
+      .meta div {
+        min-height: auto;
+        padding: 0;
+      }
+      .label {
+        position: static;
+      }
+      h1 {
+        font-size: clamp(50px, 15vw, 72px);
+      }
+      section {
+        padding: 70px 0;
+      }
+      .dark-band {
+        padding-block: 72px;
+      }
+      .gallery {
+        gap: 18px;
+        padding: 22px 22px 58px;
+      }
+      .matrix article {
+        min-height: auto;
+      }
+      .matrix b {
+        margin-bottom: 24px;
+      }
+    }
+  
+    /* —— 与主页一致的全局 nav 组件 —— */
+    .nav{background:rgba(247,243,236,.9);border-bottom:1px solid rgba(24,23,19,.12);}
+    .nav .brand{font-size:13px;font-weight:760;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+    .nav .nav-actions{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:13px;}
+    .nav .nav-actions a{color:var(--muted);}
+    .nav .nav-actions a:hover{color:var(--ink);}
+    .nav .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;padding:0;gap:0;}
+    .nav .lang button{appearance:none;border:0;background:transparent;color:var(--muted);padding:7px 10px;font:inherit;cursor:pointer;}
+    .nav .lang button.active{background:var(--ink);color:var(--paper);}
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Portfolio navigation">
+    <a class="brand" href="../../index.html"><span class="en">Skylar Li · Portfolio</span><span class="zh">Skylar Li · 作品集</span></a>
+    <div class="nav-actions">
+      <a href="../../index.html#work"><span class="en">Work</span><span class="zh">作品</span></a>
+      <a href="../../resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
+      <a href="../../index.html#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+      <div class="lang" aria-label="Language switch">
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="en">AIGC Visual Product Direction</span><span class="zh">AIGC 视觉产品方向</span></div>
+        <h1>BugBox</h1>
+        <p class="thesis">
+          <span class="en">An emotion-led character IP system exploring how AIGC can shape a repeatable visual product direction.</span>
+          <span class="zh">一个以情绪角色为核心的 IP 视觉系统，探索 AIGC 如何形成可延展的视觉产品方向。</span>
+        </p>
+      </div>
+      <figure class="hero-art">
+        <img src="assets/bugbox_page-49-figures.png" alt="BugBox AIGC character system cover">
+      </figure>
+    </header>
+
+    <div class="meta" aria-label="Case metadata">
+      <div><b><span class="en">Role</span><span class="zh">角色</span></b><span><span class="en">AIGC visual exploration, IP setting, style direction</span><span class="zh">AIGC 视觉探索、IP 设定、风格方向</span></span></div>
+      <div><b><span class="en">Format</span><span class="zh">形式</span></b><span><span class="en">Visual product direction / support case</span><span class="zh">视觉产品方向 / 辅助案例</span></span></div>
+      <div><b><span class="en">Use</span><span class="zh">用途</span></b><span><span class="en">AIGC craft, IP thinking, visual-system evidence</span><span class="zh">证明 AIGC 视觉能力、IP 思维和视觉系统判断</span></span></div>
+      <div><b><span class="en">Output</span><span class="zh">产出</span></b><span><span class="en">Character set, mood system, generated scenes, style-control process</span><span class="zh">角色组、情绪系统、生成场景、风格控制流程</span></span></div>
+    </div>
+
+    <section id="brief">
+      <div class="section-head">
+        <div class="label"><span class="en">01 — The Brief</span><span class="zh">01 — 项目命题</span></div>
+        <div>
+          <h2><span class="en">A character system that could grow beyond one generated image.</span><span class="zh">不是一张生成图，而是一套可延展的角色系统。</span></h2>
+          <p class="lead">
+            <span class="en">BugBox is an AIGC concept project for an emotion-led character IP system, exploring how role settings, style anchors, and controlled generation can form an extendable visual product direction.</span>
+            <span class="zh">BugBox 是一个围绕情绪角色与可生成 IP 视觉系统的 AIGC 概念项目，重点验证如何通过角色设定、风格锚点和生成控制，形成可延展的视觉产品方向。</span>
+          </p>
+        </div>
+      </div>
+      <div class="matrix">
+        <article>
+          <b>01</b>
+          <h3><span class="en">Character premise</span><span class="zh">角色设定</span></h3>
+          <p><span class="en">Negative emotions are personified as collectible toy-like characters with distinct roles and moods.</span><span class="zh">把负面情绪人格化为可收藏的玩偶角色，每个角色有明确身份和情绪。</span></p>
+        </article>
+        <article>
+          <b>02</b>
+          <h3><span class="en">Style consistency</span><span class="zh">风格一致性</span></h3>
+          <p><span class="en">The case tests whether different characters can share material, lighting, proportion, and art-direction rules.</span><span class="zh">项目测试不同角色是否能共享材质、光影、比例和美术方向规则。</span></p>
+        </article>
+        <article>
+          <b>03</b>
+          <h3><span class="en">Scene expansion</span><span class="zh">场景扩展</span></h3>
+          <p><span class="en">Generated scenes extend each character into a small narrative world without losing the core IP identity.</span><span class="zh">生成场景把每个角色扩展进小型叙事世界，同时不丢失核心 IP 识别。</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dark-band" id="process">
+      <div class="section-head">
+        <div class="label"><span class="en">02 — AIGC Process</span><span class="zh">02 — AIGC 流程</span></div>
+        <div>
+          <h2><span class="en">AIGC mattered only when the output could be directed.</span><span class="zh">AIGC 的价值在于可被控制地生成。</span></h2>
+          <p class="lead">
+            <span class="en">The case should be discussed through controllable decisions: role definition, emotional palette, material language, prompt iteration, reference control, and final selection.</span>
+            <span class="zh">这个项目适合从可控决策讲起：角色定义、情绪色彩、材质语言、提示词迭代、参考约束和最终筛选。</span>
+          </p>
+        </div>
+      </div>
+      <div class="matrix">
+        <article>
+          <b><span class="en">Input</span><span class="zh">输入</span></b>
+          <h3><span class="en">Emotion, role, material.</span><span class="zh">情绪、身份、材质。</span></h3>
+          <p><span class="en">Each character starts from a mood and a role, then gets translated into outfit, setting, and object cues.</span><span class="zh">每个角色从一种情绪和身份出发，再转译成服装、场景和物件线索。</span></p>
+        </article>
+        <article>
+          <b><span class="en">Control</span><span class="zh">控制</span></b>
+          <h3><span class="en">Keep the toy language stable.</span><span class="zh">保持玩偶语言稳定。</span></h3>
+          <p><span class="en">Proportion, glossy material, large eyes, soft textile details, and controlled lighting are used as visual anchors.</span><span class="zh">比例、光泽材质、大眼睛、织物细节和受控光影，是保持一致性的锚点。</span></p>
+        </article>
+        <article>
+          <b><span class="en">Output</span><span class="zh">输出</span></b>
+          <h3><span class="en">Select, compare, refine.</span><span class="zh">筛选、比较、收敛。</span></h3>
+          <p><span class="en">The final value is not one lucky image, but a repeatable direction that can generate a family of related visuals.</span><span class="zh">最终价值不是一张偶然好图，而是能持续生成同族视觉的方向。</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="archive">
+      <div class="section-head">
+        <div class="label"><span class="en">03 — Visual Archive</span><span class="zh">03 — 视觉归档</span></div>
+        <div>
+          <h2><span class="en">The pages are kept as a continuous visual appendix.</span><span class="zh">这些页面作为连续视觉附录保留。</span></h2>
+          <p class="lead">
+            <span class="en">The original pages are shown without extra captions so the IP world, mood range, and generated-scene quality can be read continuously.</span>
+            <span class="zh">原始页面不额外加说明，让 IP 世界观、情绪范围和生成场景质量可以连续阅读。</span>
+          </p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/bugbox_page-50.png" alt="BugBox story overview"></figure>
+        <figure><img src="assets/bugbox_page-51.png" alt="BugBox character lineup"></figure>
+        <figure><img src="assets/bugbox_page-52.png" alt="BugBox character visual exploration"></figure>
+        <figure><img src="assets/bugbox_page-53.png" alt="BugBox character visual exploration"></figure>
+        <figure><img src="assets/bugbox_page-54.png" alt="BugBox character visual exploration"></figure>
+        <figure><img src="assets/bugbox_page-55.png" alt="BugBox DeepBleed character scene"></figure>
+        <figure><img src="assets/bugbox_page-56.png" alt="BugBox character scene"></figure>
+        <figure><img src="assets/bugbox_page-57.png" alt="BugBox character scene"></figure>
+        <figure><img src="assets/bugbox_page-58.png" alt="BugBox character scene"></figure>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+    const root = document.body;
+    const buttons = [...document.querySelectorAll("[data-set-lang]")];
+    const saved = localStorage.getItem("portfolioPureLang") || "en";
+    function setLang(lang) {
+      root.dataset.lang = lang;
+      localStorage.setItem("portfolioPureLang", lang);
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
+    }
+    buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
+    setLang(saved);
+  </script>
+</body>
+</html>
+
+

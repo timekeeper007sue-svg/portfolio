@@ -50,7 +50,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
-      padding: 18px max(22px, calc((100vw - 1120px) / 2));
+      padding: 18px max(22px, calc((100vw - 1180px) / 2));
       border-bottom: 1px solid rgba(24, 23, 19, .12);
       background: rgba(247, 243, 236, .9);
       backdrop-filter: blur(18px);
@@ -154,6 +154,7 @@
       padding: 96px 0;
       border-top: 1px solid var(--line);
     }
+    #work { border-top: 0; }
     .section-head {
       display: grid;
       grid-template-columns: .8fr 1.2fr;
@@ -375,7 +376,8 @@
     
     #contact .work-item h3{font-size:clamp(20px,2.2vw,26px);line-height:1.25;font-weight:680;letter-spacing:-.01em;}
     body[data-lang="zh"] #contact .work-item h3{font-size:clamp(20px,2.2vw,26px);}
-    #contact .work-item{grid-template-columns:130px 1fr;}
+    #contact .work-list{border:0;background:transparent;}
+    #contact .work-item{grid-template-columns:1fr;padding:0;}
     .contact-email{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:18px;font-weight:600;color:#242526;letter-spacing:-.01em;transition:color .22s ease;}
     .contact-email::after{content:"→";font-weight:500;opacity:0;transform:translateX(-5px);transition:opacity .22s ease,transform .22s ease;}
     .work-item:hover .contact-email{color:#3d6274;}
@@ -440,8 +442,8 @@
       <a href="resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
       <a href="#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
       <div class="lang" aria-label="Language switcher">
-        <button type="button" data-lang-button="en" onclick="setLang('en')">EN</button>
-        <button type="button" data-lang-button="zh" onclick="setLang('zh')">中文</button>
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh">中文</button>
       </div>
     </div>
   </nav>
@@ -451,15 +453,12 @@
       <div>
         <h1><span class="en">A product designer who builds.</span><span class="zh">一个能设计也能落地的产品设计师。</span></h1>
         <p class="hero-sub"><span class="en">I take problems to working products — using AI where it helps, keeping judgment where it matters.</span><span class="zh">把问题做成跑得起来的产品——该用 AI 的地方用 AI，该靠判断的地方靠人。</span></p>
-        <div class="eyebrow"><span class="en">AI tools · Education platforms · Consumer products</span><span class="zh">AI 工具 · 教育平台 · 消费级产品</span></div>
       </div>
       <div class="hero-foot">
         <div class="meta" aria-label="Focus areas">
           <span class="pill"><span class="en">AI Product Design</span><span class="zh">AI 产品设计</span></span>
           <span class="pill"><span class="en">Design Engineering</span><span class="zh">设计工程</span></span>
           <span class="pill"><span class="en">Complex Systems</span><span class="zh">复杂系统</span></span>
-          <span class="pill"><span class="en">Data-informed UX</span><span class="zh">数据驱动的体验设计</span></span>
-          <span class="pill"><span class="en">Research Tools</span><span class="zh">研究工具</span></span>
         </div>
       </div>
     </header>
@@ -544,15 +543,10 @@
 
   <section class="shell" id="contact">
       <div class="section-head">
-        <h2><span class="en">About</span><span class="zh">关于</span></h2>
-        <p class="section-note">
-          <span class="en">I’m a product designer with nearly five years of experience across AI tools, education platforms, and cross-device TV products. My work combines product strategy, interaction design, data insight, and hands-on AI prototyping. I’m especially interested in turning ambiguous workflows into structured tools and shipped product experiences.</span>
-          <span class="zh">我是一名产品设计师，近 5 年经验覆盖 AI 工具、教育平台和跨设备 TV 产品。我的工作横跨产品策略、交互设计、数据洞察和 AI 原型落地，尤其喜欢把模糊的工作流梳理成结构化的工具，再做成真正上线的产品。</span>
-        </p>
+        <h2><span class="en">Contact</span><span class="zh">联系</span></h2>
       </div>
       <div class="work-list">
         <a class="work-item" href="mailto:zhuoxiuli01@sina.com">
-          <span class="index"><span class="en">Contact</span><span class="zh">联系</span></span>
           <div>
             <h3><span class="en">Let’s talk</span><span class="zh">找我聊聊</span></h3>
             <p><span class="en">Available for AI product design, design systems, and complex product experience roles.</span><span class="zh">正在看 AI 产品设计、设计系统与复杂产品体验方向的机会。</span></p>
@@ -565,20 +559,21 @@
   </main>
 
   <footer>
-    <span class="en">Product design portfolio · AI workflows, complex systems, and design engineering.</span>
-    <span class="zh">产品设计作品集 · AI 工作流、复杂系统与设计工程。</span>
+    <span class="en">© 2026 Skylar Li</span>
+    <span class="zh">© 2026 Skylar Li</span>
   </footer>
 
   <script>
+    const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
     function setLang(lang) {
       document.body.dataset.lang = lang;
       document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
       localStorage.setItem("portfolioPureLang", lang);
-      document.querySelectorAll("[data-lang-button]").forEach(function(button) {
-        button.classList.toggle("active", button.dataset.langButton === lang);
-      });
     }
-    setLang(localStorage.getItem("portfolioPureLang") || "en");
+    buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    setLang(queryLang || localStorage.getItem("portfolioPureLang") || "en");
   </script>
   <script>
   (function(){

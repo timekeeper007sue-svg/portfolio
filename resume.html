@@ -46,7 +46,7 @@
     .nav {
       position: sticky; top: 0; z-index: 10;
       display: flex; align-items: center; justify-content: space-between; gap: 24px;
-      padding: 18px max(22px, calc((100vw - 1120px) / 2));
+      padding: 18px max(22px, calc((100vw - 1180px) / 2));
       border-bottom: 1px solid rgba(24, 23, 19, .12);
       background: rgba(247, 243, 236, .9);
       backdrop-filter: blur(18px);
@@ -124,8 +124,8 @@
       <a class="active" href="resume.html"><span class="en">Resume</span><span class="zh">简历</span></a>
       <a href="index.html#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
       <div class="lang" aria-label="Language switcher">
-        <button type="button" data-lang-button="en" onclick="setLang('en')">EN</button>
-        <button type="button" data-lang-button="zh" onclick="setLang('zh')">中文</button>
+        <button type="button" data-set-lang="en">EN</button>
+        <button type="button" data-set-lang="zh">中文</button>
       </div>
     </div>
   </nav>
@@ -255,15 +255,16 @@
   </main>
 
   <script>
+    const buttons = Array.from(document.querySelectorAll("[data-set-lang]"));
     function setLang(lang) {
       document.body.dataset.lang = lang;
       document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.setLang === lang));
       localStorage.setItem("portfolioPureLang", lang);
-      document.querySelectorAll("[data-lang-button]").forEach(function (button) {
-        button.classList.toggle("active", button.dataset.langButton === lang);
-      });
     }
-    setLang(localStorage.getItem("portfolioPureLang") || "en");
+    buttons.forEach((button) => button.addEventListener("click", () => setLang(button.dataset.setLang)));
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    setLang(queryLang || localStorage.getItem("portfolioPureLang") || "en");
   </script>
 </body>
 </html>
