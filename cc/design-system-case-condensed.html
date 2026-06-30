@@ -22,8 +22,8 @@
       --warn: #9b6a15;
       --indent: 278px;
       --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-      --font-zh-display: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --font-zh: "PingFang SC", "Source Han Sans SC", "Noto Sans SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-zh-display: "PingFang SC", "Source Han Sans SC", "Noto Sans SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       --font-mono: "JetBrains Mono", "SF Mono", "Roboto Mono", ui-monospace, Menlo, monospace;
     }
 
@@ -1054,8 +1054,8 @@
     .nh-field{ position:relative; overflow:hidden; margin-inline: calc((100vw - min(1180px, calc(100vw - 44px))) / -2); padding: 66px max(22px, calc((100vw - 1180px) / 2)) 0; background:#246b54; color:#f4faf7; }
     .nh-eb{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#cdeede; }
     .nh-badge{ position:absolute; top:64px; right:max(22px, calc((100vw - 1180px) / 2)); font-family:var(--font-mono); font-size:12px; border:1px solid rgba(205,238,222,.45); color:#cdeede; border-radius:999px; padding:7px 13px; }
-    .nh-h1{ font-family:var(--font-en); margin-top:18px; font-size:clamp(36px,4.25vw,60px); line-height:1.04; font-weight:850; letter-spacing:-.015em; max-width:none; }
-    body[data-lang="zh"] .nh-h1{ font-family:var(--font-zh-display); font-weight:650; line-height:1.12; letter-spacing:.01em; }
+    .nh-h1{ font-family:var(--font-en); margin-top:18px; font-size:clamp(34px,3.9vw,52px); line-height:1.04; font-weight:850; letter-spacing:-.015em; max-width:none; }
+    body[data-lang="zh"] .nh-h1{ font-family:var(--font-zh-display); font-size:clamp(30px,3.5vw,46px); font-weight:600; line-height:1.12; letter-spacing:.01em; }
     .nh-sub{ margin-top:22px; max-width:600px; font-size:17px; line-height:1.5; color:rgba(244,250,247,.84); }
     .nh-duo{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:54px; }
     .nh-fr{ display:flex; flex-direction:column; }
@@ -1063,7 +1063,7 @@
     .nh-no{ font-weight:700; }
     .nh-box{ background:#fff; overflow:hidden; border-radius:8px 8px 0 0; box-shadow:0 12px 34px rgba(17,16,21,.26); }
     .nh-box img{ display:block; width:100%; height:208px; object-fit:cover; object-position:left top; }
-    @media (max-width:980px){ .nh-h1{ font-size:clamp(32px,8vw,52px); } .nh-duo{ grid-template-columns:1fr; } .nh-badge{ position:static; display:inline-block; margin-top:16px; } }
+    @media (max-width:980px){ .nh-h1{ font-size:clamp(30px,6vw,46px); } .nh-duo{ grid-template-columns:1fr; } .nh-badge{ position:static; display:inline-block; margin-top:16px; } }
 </style>
 </head>
 <body data-lang="en">
@@ -1083,10 +1083,10 @@
   <main class="shell">
     <header class="nh">
   <div class="nh-field">
-    <p class="nh-eb"><span class="en">Design System / Governance</span><span class="zh">AI 工作流 · 治理</span></p>
+    <p class="nh-eb"><span class="en">AI Product Design · Design Systems</span><span class="zh">AI 产品设计 · 设计系统</span></p>
     <div class="nh-badge">Build &#8644; Check</div>
-    <h1 class="nh-h1"><span class="en">Build rules.<br>Check output.</span><span class="zh">设计系统：立规则，查产出。</span></h1>
-    <p class="nh-sub"><span class="en">Standards become components and AI rules; token-lint checks the output — a build-and-check loop.</span><span class="zh">规范落成组件与 AI 规则，再用 token-lint 审查产出——一个搭建 + 审查的闭环。</span></p>
+    <h1 class="nh-h1"><span class="en">Rules keep AI on-style.<br>Judgment keeps it on-task.</span><span class="zh">规则让 AI 守样式，<br>判断让它不答错题。</span></h1>
+    <p class="nh-sub"><span class="en">The design calls — what becomes a rule, what stays a one-off — were mine; the component, AI-rule, and token-lint system scaled them.</span><span class="zh">哪些沉淀为规则、哪些只是一次性——这些判断由我做；组件、AI 规则与 token-lint 这套系统，把它规模化。</span></p>
     <div class="nh-duo">
       <figure class="nh-fr">
         <figcaption class="nh-cap"><span class="nh-no">01</span><span class="en">Build — components + AI rules</span><span class="zh">Build — 组件 + AI 规则</span></figcaption>
@@ -1111,10 +1111,10 @@
       <div class="section-head">
         <div class="label"><span class="en">01 — The Brief</span><span class="zh">01 — 项目命题</span><span class="rail-take"><span class="en">Legacy + new system</span><span class="zh">新旧系统并存</span></span></div>
         <div>
-          <h2><span class="en">The challenge was not writing rules, but keeping them executable after handoff.</span><span class="zh">问题不是没有规范，而是规范离开文档后还能不能被执行。</span></h2>
+          <h2><span class="en">Rules were never the hard part — deciding what to enforce, and what to leave to judgment, was.</span><span class="zh">规则从来不是难点——难的是决定：哪些该强制执行，哪些该留给判断。</span></h2>
           <p class="lead">
-            <span class="en">The product is a teacher-facing education platform moving toward a newer design language while still carrying legacy implementation. Component coverage was limited, AI-generated pages could not reliably follow the updated style, and some development work bypassed shared components, making design QA expensive. That gap became a workflow connecting components, AI rules, and review checks.</span>
-            <span class="zh">这是一个面向教师的教育平台，正在迁移到新版设计语言，但大量页面仍运行在旧版实现上。新版组件覆盖有限，AI 生成页面难以稳定遵循新版风格，部分开发实现也没有复用组件，导致设计走查成本很高。我把这个问题拆成三件事：组件如何复用、AI 如何按规则生成、产物如何被检查。</span>
+            <span class="en">The product is a teacher-facing education platform, migrating to a newer design language while most pages still ran on the legacy one. The cost showed up downstream — teachers met visibly inconsistent pages, and the team couldn't roll out the new language at speed. The rules existed; what was missing was anything that kept them executable once a page left the design file. I built the system to close that gap — but the harder calls were design judgment: which drifts to encode as rules, and which to leave to a person.</span>
+            <span class="zh">这是一个面向教师的教育平台，正迁移到新版设计语言，但大量页面仍运行在旧版实现上。代价出现在下游——教师看到的是明显不一致的页面，团队也无法快速铺开新设计语言。规范本身已经存在；真正缺的，是一套能在页面离开设计稿后仍保证其被执行的机制。我搭建了一套系统来弥合这一缺口——但更难的判断在设计层面：哪些漂移应沉淀为规则，哪些应交由人来判断。</span>
           </p>
         </div>
       </div>
@@ -1179,7 +1179,7 @@
           <article class="proof">
             <b><span class="en">AI constraints</span><span class="zh">AI 约束</span></b>
             <h3><span class="en">Rules moved from tacit knowledge into generation.</span><span class="zh">把依赖经验记忆的规则，写进 AI 生成过程。</span></h3>
-            <p><span class="en">The ~1,400-line Skill encodes rules that once lived in memory and were lost at handoff — two-decimal precision on ratios, domain-correct counting units, red (not green) for a rising rank, and a single navigation component.</span><span class="zh">约 1400 行的 Skill 把过去依赖记忆传递、易随人员变动流失的规则，固化成生成前的可执行约束——例如比率保留两位小数、计量单位用“题”而非“道”、排名上升用红色而非绿色、导航采用 SecondRouter。</span></p>
+            <p><span class="en">The Skill encodes rules that once lived in memory and were lost at handoff — two-decimal precision on ratios, domain-correct counting units, red (not green) for a rising rank, and a single navigation component.</span><span class="zh">这套 Skill 把过去依赖记忆传递、易随人员变动流失的规则，固化成生成前的可执行约束——例如比率保留两位小数、计量单位用“题”而非“道”、排名上升用红色而非绿色、导航采用 SecondRouter。</span></p>
           </article>
           <article class="proof">
             <b><span class="en">Token rules</span><span class="zh">Token 规则</span></b>
@@ -1215,8 +1215,8 @@
         <div>
           <h2><span class="en">After generation, token-lint made rule drift visible.</span><span class="zh">页面生成后，用 token-lint 暴露规则偏差。</span></h2>
           <p class="lead">
-            <span class="en">Fast generation was not enough. The review layer scans runtime CSS values, flags off-token usage, and turns issues into review records instead of relying on visual guesswork. Color checks don’t rely on string matching; they use perceptual ΔE difference to find the nearest standard token (#333 → gray-9, ΔE 1.8), returning an explainable suggestion rather than a bare “violation.”</span>
-            <span class="zh">生成得快还不够。审查层会扫描运行时 CSS，识别非 token 用法，把问题记录下来，而不是只靠肉眼走查。颜色检测不做字符串比对，而是用 ΔE 感知色差匹配最接近的标准 token（如 #333 → gray-9，ΔE 1.8），给出可解释的建议值，而非仅标记“违规”。</span>
+            <span class="en">Fast generation was not enough. The review layer scans runtime CSS values, flags off-token usage, and turns issues into review records instead of relying on visual guesswork. Color checks use perceptual color difference (ΔE) to suggest the nearest token, returning an explainable value rather than a bare “violation.”</span>
+            <span class="zh">生成得快还不够。审查层会扫描运行时 CSS，识别非 token 用法，把问题记录下来，而不是只靠肉眼走查。颜色检测用 ΔE 感知色差匹配最接近的标准 token，给出可解释的建议值，而非仅标记“违规”。</span>
           </p>
         </div>
       </div>
@@ -1267,31 +1267,31 @@
         <article class="judgment-row">
           <b>03<span><span class="en">Intent</span><span class="zh">意图</span></span></b>
           <h3><span class="en">A compliant page can solve the wrong task.</span><span class="zh">样式合规，也可能答错题。</span></h3>
-          <p><span class="en">AI may generate a page that follows surface rules but misses the product intent. For answer-sheet setup, the gap was not visual polish; it was the absence of the right configuration pattern.</span><span class="zh">AI 可能生成一个表层合规的页面，却没有解决正确的产品任务。答题卡设置的问题不在视觉质量，而在缺少正确的配置模式。</span></p>
+          <p><span class="en">AI may generate a page that follows every surface rule but misses the product intent entirely — the gap isn't visual polish, it's the missing pattern underneath.</span><span class="zh">AI 可能生成一个处处合规、却完全错过产品意图的页面——缺的不是视觉打磨，而是底层缺了一种范式。</span></p>
         </article>
       </div>
       <div class="judgment-example col">
         <b class="case-check-label"><span class="en">Case check</span><span class="zh">案例判断</span></b>
-        <h3><span class="en">Answer-sheet setup exposed a missing configuration pattern.</span><span class="zh">答题卡设置暴露出缺失的配置模式。</span></h3>
+        <h3><span class="en">Answer-sheet setup needed a pattern, not a prettier page.</span><span class="zh">答题卡设置要的是一种范式，而非更漂亮的页面。</span></h3>
         <p>
-          <span class="en">The useful review moment was not simply finding a bad screen. It was deciding whether the issue belonged to implementation, component semantics, or the design system itself.</span>
-          <span class="zh">有价值的审查并不是简单找出一个错误页面，而是判断问题属于实现偏差、组件语义，还是设计系统本身需要补规则。</span>
+          <span class="en">After designing an exam, a teacher still has to build its answer sheet — laying out each question's answer region, setting scores, and adding the marks that make it machine-scannable. AI returned a clean, on-style page — but an information one: methods and a support matrix, with no way to configure a sheet. It passed every style rule and did the wrong job. The call wasn't to polish it, but to see the requirement needed a configuration pattern — so I designed it, and it became components and rules.</span>
+          <span class="zh">老师设计完一场考试后，还要为它制作答题卡——逐题排布作答区、设置分值，并加上让它可被机器扫描的标记。AI 产出的是一个干净、合规的页面，却是一张信息页：罗列制卡方式与学科支持矩阵，无法真正配置一张卡。它通过了每一条样式规则，却做错了任务。判断不在于把它做漂亮，而在于看清需求要的是一种配置范式——于是我把它设计了出来，并沉淀为组件与规则。</span>
         </p>
         <div class="image-pair">
           <figure>
-            <img src="design-system-assets/demo-good-2.png" alt="Another successful AI-generated page following design system rules">
+            <img src="design-system-assets/demo-bad_1-crop.jpeg" alt="AI-generated information page for answer-sheet setup">
             <figcaption>
-              <b><span class="en">Matched intent</span><span class="zh">意图匹配</span></b><br>
-              <span class="en">A teaching-supervision requirement mapped clearly to existing data-display components, states, and layout rules.</span>
-              <span class="zh">教学监管需求可以清晰映射到已有的数据展示组件、状态和布局规则。</span>
+              <b><span class="en">AI's answer</span><span class="zh">AI 的答案</span></b><br>
+              <span class="en">A clean, on-style information page — creation methods and a support matrix — but nothing a teacher could configure a sheet on.</span>
+              <span class="zh">一个干净、合规的信息页——罗列制卡方式与支持矩阵——但老师无法在上面配置一张卡。</span>
             </figcaption>
           </figure>
           <figure>
-            <img src="design-system-assets/demo-bad_1-crop.jpeg" alt="AI-generated page with compliant style but wrong intent">
+            <img src="design-system-assets/answer-sheet-editor-design.jpg" alt="The answer-sheet configuration editor I designed">
             <figcaption>
-              <b><span class="en">Missing pattern</span><span class="zh">模式缺口</span></b><br>
-              <span class="en">The answer-sheet setup requirement needed a dedicated configuration pattern, not a generic information page.</span>
-              <span class="zh">答题卡设置需要专门的配置模式，而不是一个普通信息页。</span>
+              <b><span class="en">The pattern I designed</span><span class="zh">我设计的范式</span></b><br>
+              <span class="en">A layout editor with per-question answer regions, scoring, and print/scan settings.</span>
+              <span class="zh">一个带逐题作答区、分值与印刷/扫描设置的排版编辑器。</span>
             </figcaption>
           </figure>
         </div>
@@ -1307,24 +1307,11 @@
             <span class="en">The value was not a static component library. It was a workflow where design rules became implementation, AI constraints, and runtime review criteria.</span>
             <span class="zh">这个项目的价值不在于静态组件库，而在于设计规则被转化为实现方式、AI 约束和运行时审查标准。</span>
           </p>
+          <p class="lead">
+            <span class="en">What it can actually do, honestly: when a requirement fits within about three pages and existing components cover it, the system generates a usable interaction draft directly. Past that line — more pages, or components that don't exist yet — the output isn't a usable draft, and a designer steps in. Naming that boundary was the point: the system carries the routine, so judgment goes where it counts.</span>
+            <span class="zh">它真正能做到的、坦白说：当需求在三页以内、且已有组件可覆盖时，系统能直接生成一份可用的交互稿；一旦越过这条线——页数更多，或所需组件尚不存在——产出就不再是可用的交互稿，需由设计师接手。划清这条边界本身才是关键：系统承担常规，判断去往真正重要的地方。</span>
+          </p>
         </div>
-      </div>
-      <div class="outcome-grid col">
-        <article>
-          <b><span class="en">Built</span><span class="zh">构建</span></b>
-          <h3><span class="en">52 Vue3 components, documented</span><span class="zh">52 个 Vue3 组件，建档</span></h3>
-          <p><span class="en">Components and interaction rules became the executable base.</span><span class="zh">组件与交互规则成为系统的可执行基础。</span></p>
-        </article>
-        <article>
-          <b><span class="en">Constrained</span><span class="zh">约束</span></b>
-          <h3><span class="en">AI Skill rules at generation time</span><span class="zh">生成时的 AI Skill 规则</span></h3>
-          <p><span class="en">Page structure, component choice, spacing, and data semantics — before output.</span><span class="zh">产出前的页面结构、组件选择、间距与数据语义。</span></p>
-        </article>
-        <article>
-          <b><span class="en">Checked</span><span class="zh">审查</span></b>
-          <h3><span class="en">token-lint runtime review</span><span class="zh">token-lint 运行时审查</span></h3>
-          <p><span class="en">Implementation checked against tokens; issues exported as handoff records.</span><span class="zh">对照 token 检查实现，问题导出为可交接记录。</span></p>
-        </article>
       </div>
       <div class="feedback-note col">
         <b><span class="en">From one issue to a reusable rule</span><span class="zh">从一次问题到一条规则</span></b>

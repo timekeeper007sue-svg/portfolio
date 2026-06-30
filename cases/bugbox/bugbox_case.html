@@ -15,7 +15,7 @@
       --accent: #f3b7bd;
       --cyan: #27d7df;
       --font-en: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-zh: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --font-zh: "PingFang SC", "Source Han Sans SC", "Noto Sans SC", "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -34,6 +34,9 @@
     .zh { display: none; }
     body[data-lang="zh"] .en { display: none; }
     body[data-lang="zh"] .zh { display: inline; }
+    .zh-img { display: none; }
+    body[data-lang="zh"] .en-img { display: none; }
+    body[data-lang="zh"] .zh-img { display: block; }
 
     .nav {
       position: sticky;
@@ -471,15 +474,15 @@
         </div>
       </div>
       <div class="gallery">
-        <figure><img src="assets/bugbox_page-50.png" alt="BugBox story overview"></figure>
-        <figure><img src="assets/bugbox_page-51.png" alt="BugBox character lineup"></figure>
+        <figure><img class="en-img" src="assets/bugbox_page-50.png" alt="BugBox story overview"><img class="zh-img" src="assets/bugbox_page-50-cn.png" alt="BugBox story overview"></figure>
+        <figure><img class="en-img" src="assets/bugbox_page-51.png" alt="BugBox character lineup"><img class="zh-img" src="assets/bugbox_page-51-cn.png" alt="BugBox character lineup"></figure>
         <figure><img src="assets/bugbox_page-52.png" alt="BugBox character visual exploration"></figure>
         <figure><img src="assets/bugbox_page-53.png" alt="BugBox character visual exploration"></figure>
         <figure><img src="assets/bugbox_page-54.png" alt="BugBox character visual exploration"></figure>
         <figure><img src="assets/bugbox_page-55.png" alt="BugBox DeepBleed character scene"></figure>
         <figure><img src="assets/bugbox_page-56.png" alt="BugBox character scene"></figure>
         <figure><img src="assets/bugbox_page-57.png" alt="BugBox character scene"></figure>
-        <figure><img src="assets/bugbox_page-58.png" alt="BugBox character scene"></figure>
+        <figure><img class="en-img" src="assets/bugbox_page-58.png" alt="BugBox character scene"><img class="zh-img" src="assets/bugbox_page-58-cn.png" alt="BugBox character scene"></figure>
       </div>
     </section>
   </main>

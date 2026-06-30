@@ -613,11 +613,18 @@
         <div>
           <h2><span class="en">The issue was not one report. It was a fragmented reporting path.</span><span class="zh">问题不是某一份报告，而是一条割裂的报告路径。</span></h2>
           <p class="lead">
-            <span class="en">I noticed this in daily use: teachers were moving a single report across many inconsistent screens, relearning each layout. After talking it through with product, we turned it into a project. The redesign started before the report page itself — unifying how each report type is listed, opened, drafted, and recovered, so teachers move through one set of rules.</span>
-            <span class="zh">这并非指派的需求，而是我主动发现并立项的：日常使用中，我注意到教师处理一份报告需在多套各异的界面间反复切换，每次都要重新熟悉页面。于是我将这一碎片化的体验问题立项 —— 一次面向教师端报告工作流的重构，覆盖报告列表、详情分析、班级 / 年级视角与课堂讲评入口。重构从报告详情页之前便已开始：统一全部作业、已生成报告、草稿箱与回收站等入口状态，使教师能以同一套规则查找、进入并恢复报告。</span>
+            <span class="en">I noticed this in daily use, and it kept surfacing in support complaints: when an admin teacher revised an answer key, every report tied to that exam needed updating — but finding those reports across a sea of separately-built lists was slow and easy to miss. That was one symptom of a bigger gap: teachers relearning a different layout for every report type.</span>
+            <span class="zh">这是我在日常使用中注意到、客诉里也反复出现的问题：管理员教师修订答案后，该试卷涉及的每份报告都需要更新，但要在一堆各自实现的报告列表里找出它们，既慢又容易漏。这只是更大问题的一个症状——教师要为每种报告重新熟悉一套不同的界面。</span>
+          </p>
+          <p class="lead">
+            <span class="en">After raising it with product, we made it a project — a redesign that started before the report page itself, unifying how each type is listed, opened, drafted, and recovered so teachers work through one set of rules.</span>
+            <span class="zh">我把它提给产品后立了项：一次从报告详情页之前就开始的重构，统一每种报告的列表、进入、草稿与回收，让教师用同一套规则完成工作。</span>
           </p>
         </div>
       </div>
+      <p class="aside">
+        <b><span class="en">Teacher scenario</span><span class="zh">教师使用路径</span></b><span class="en">Teachers needed one predictable path from report entry to analysis and action: find the right report, switch class or grade views, read performance signals, then prepare review or diagnose student issues.</span><span class="zh">教师需要一条稳定且可预期的路径：定位对应报告，进入班级或年级视角，查看表现与薄弱点，再进入讲评备课或学生问题诊断。</span>
+      </p>
       <p class="states-lead"><span class="en">Before unifying anything, I audited the workflow feature by feature — the same action behaved differently across types: exception handling showed a button on some reports and nothing on others, downloads varied in items and naming, answer-distribution panels expanded in different places. Three patterns fell out — <b>fragmented entry points</b>, <b>inconsistent detail structures</b>, and <b>repeated design and build work</b> for every type:</span><span class="zh">动手统一之前，我先逐功能做了一次差异审计 —— 同一个动作在不同报告里各做一套：扫描异常有的报告有按钮、有的没有，下载项和命名不一致，答题分布的展开位置也各不相同。归纳出三类问题 —— <b>入口割裂</b>、<b>详情结构不一</b>、以及<b>每类都要重复设计与落地</b>：</span></p>
       <div class="before-strip" aria-label="Report types before the redesign">
         <figure><img src="homework-assets/hw-精准练-blurred.jpg" alt="AI practice report before redesign"><figcaption><span class="en">AI practice report</span><span class="zh">AI 精准练报告</span></figcaption></figure>
@@ -625,7 +632,7 @@
         <figure><img src="homework-assets/hw-数智作业-blurred.jpg" alt="Digital homework report before redesign"><figcaption><span class="en">Digital homework report</span><span class="zh">数智作业报告</span></figcaption></figure>
       </div>
       <p class="aside">
-        <b><span class="en">Teacher scenario</span><span class="zh">教师使用路径</span></b><span class="en">Teachers needed one predictable path from report entry to analysis and action: find the right report, switch class or grade views, read performance signals, then prepare review or diagnose student issues.</span><span class="zh">教师需要一条稳定且可预期的路径：定位对应报告，进入班级或年级视角，查看表现与薄弱点，再进入讲评备课或学生问题诊断。</span>
+        <b><span class="en">At scale</span><span class="zh">规模背景</span></b><span class="en">Report reading and classroom review are high-frequency, platform-wide tasks: over this term (Mar–Jun 2026), <span class="mono">17,538</span> teachers across <span class="mono">1,795</span> schools opened these reports, and the review path drew <span class="mono">20,962</span> teachers back about <span class="mono">20×</span> each. The fragmentation was not a corner case.</span><span class="zh">看报告与课堂讲评是高频、覆盖全平台的任务：本学期（2026.3–6），<span class="mono">17,538</span> 名教师、覆盖 <span class="mono">1,795</span> 所学校查看这些报告，讲评路径触达 <span class="mono">20,962</span> 名教师、人均约 <span class="mono">20</span> 次。割裂并非个例。</span>
       </p>
     </section>
 
@@ -716,6 +723,9 @@
         <p class="human-lead"><span class="en">The classroom review is where design judgment had to lead.</span><span class="zh">课堂讲评，是设计判断必须主导之处。</span></p>
         <p class="human-sub"><span class="en">It decides how a teacher runs the lesson — not something to hand off. Iterating with AI also trapped me inside what it could already produce; turning it off was how I kept room to diverge.</span><span class="zh">它决定教师如何组织这堂讲评 —— 不应交由 AI 代劳。而且反复借助 AI 迭代，思路容易被局限在它已能产出的范围之内；暂时停用，是为了保留发散思考的空间。</span></p>
       </div>
+      <p class="aside">
+        <b><span class="en">Field research</span><span class="zh">实地调研</span></b><span class="en">I’d designed the review page for lesson prep, but visiting schools I found many teachers run the review live in class from this very page. That raised the bar: it had to support teaching a lesson, not just reading like a report.</span><span class="zh">讲评页原本按“备课”场景设计，但入校走访发现，不少教师直接用这一页在课堂上讲评。这把设计要求抬高了：它要支撑教师上课，而非仅作报告供阅读。</span>
+      </p>
       <div class="ai-evidence">
       <figure class="ai-shot">
         <span class="ai-shot-label"><span class="en">AI draft</span><span class="zh">AI 初版</span></span>
@@ -746,7 +756,13 @@
         </div>
       </div>
       <p class="aside">
-        <b><span class="en">On the numbers</span><span class="zh">关于这些数字</span></b><span class="en">The <span class="mono">140k+</span> monthly reach is product scale, not redesign-driven growth. I don’t claim a percentage impact, because rework reduction was never formally measured.</span><span class="zh"><span class="mono">14 万+</span> 月触达是产品规模，不应归因于本次改版。返工减少未经正式统计，故不声明百分比影响。</span>
+        <b><span class="en">On delivery</span><span class="zh">交付侧</span></b><span class="en">Reuse showed up in the build: design-to-page generation ran about 15% faster, the AI-generated pages needed few manual fixes, and engineering maintains one code base instead of one per report type.</span><span class="zh">复用在交付中见效：设计到页面的生成效率约提升 15%，AI 生成的页面可用度高、需人工调整之处很少，研发也从「每类报告各维护一套代码」转为维护同一套。</span>
+      </p>
+      <p class="aside">
+        <b><span class="en">Reading the numbers</span><span class="zh">数据解读</span></b><span class="en">Report views rose sharply after launch (PV +104%, April → May), and each teacher came back more often (4.8 → 5.6 views). Part of that is the rollout — the user base nearly doubled — and May is exam season, so I don’t claim a clean redesign effect. But views outpaced even that user growth, which says the unified flow is getting used, not just reached.</span><span class="zh">上线后报告查看量大幅上升（PV +104%，4→5 月），每位教师的查看频次也由 4.8 升至 5.6。其中一部分来自放量——用户规模接近翻倍，加之 5 月正值考试季，因此我并不声称这是改版的单独效果。但报告查看的增幅超过了用户规模的增长，说明统一后的流程是被真正使用，而非仅被触达。</span>
+      </p>
+      <p class="aside">
+        <b><span class="en">Reading the risk</span><span class="zh">风险研判</span></b><span class="en">A structural redesign’s usual cost is relearning, so the signal I watched was friction: satisfaction and NPS held flat and return-to-old stayed ~37%. The change landed without a spike — a modest signal, but for this kind of work the one that matters.</span><span class="zh">结构性改版最常见的代价是让用户重新学习，因此我重点关注的是摩擦：满意度与 NPS 保持持平、返回旧版率稳定在 ~37%。这次大改并未引发摩擦上升——这是个温和的信号，但对这类工作而言恰是最该看的那一个。</span>
       </p>
       <p class="aside">
         <b><span class="en">What I’d do differently</span><span class="zh">复盘</span></b><span class="en">Early on I hadn’t balanced fast delivery against high fidelity, and a stretch of work went the wrong way before I set the rule — stabilize the framework first, fill content second, keep a hand-drawn fallback for the hardest pages. The redesign also still needs real validation: the signal to watch is how teachers migrate to the new framework, not the absence of complaints.</span><span class="zh">项目初期未能先对齐“快速交付”与“高完成度”，中途出现过偏差；此后我将其收敛为一条原则 —— 先稳定框架，再填充内容，最难的页面保留一份手绘稿兜底。此次改版也仍需真正验证：真正应关注的是教师在新框架下的迁移与使用情况，而非“无投诉”。</span>

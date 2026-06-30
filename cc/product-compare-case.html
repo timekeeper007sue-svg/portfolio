@@ -726,8 +726,8 @@
   <main class="shell">
     <header class="pc-hero" aria-label="Project hero">
       <div class="pc-hero-copy">
-        <div class="pc-eyebrow"><span class="en">AI Product Design · Design Engineering</span><span class="zh">AI 产品设计 · 设计工程</span></div>
-        <h1><span class="en">Reviewable AI Research</span><span class="zh">可审查的 AI 工作流</span></h1>
+        <div class="pc-eyebrow"><span class="en">AI Product Design · AI-Collaboration UX</span><span class="zh">AI 产品设计 · 人机协作体验</span></div>
+        <h1><span class="en">Reviewable AI Research</span><span class="zh">可审查的 AI 竞品研究</span></h1>
         <div class="pc-en-label mono zh">REVIEWABLE AI RESEARCH</div>
         <p class="pc-thesis">
           <span class="en">AI organizes the research. People review the evidence. Only then does it become product judgment.</span>
@@ -746,8 +746,8 @@
     </header>
 
     <div class="meta" aria-label="Case metadata">
-      <div><b><span class="en">Role</span><span class="zh">角色</span></b><span><span class="en">Product framing · interaction design · Claude Code orchestration</span><span class="zh">产品定义 · 交互设计 · Claude Code 编排</span></span></div>
-      <div><b><span class="en">Scope</span><span class="zh">范围</span></b><span><span class="en">AI workflow, multi-agent pipeline, review gates, report output</span><span class="zh">AI 工作流、多 Agent 流程、人工审查、报告输出</span></span></div>
+      <div><b><span class="en">Role</span><span class="zh">角色</span></b><span><span class="en">Product framing · interaction &amp; information design · human-AI review flow</span><span class="zh">产品定义 · 交互与信息设计 · 人机审查流程</span></span></div>
+      <div><b><span class="en">Scope</span><span class="zh">范围</span></b><span><span class="en">Review experience, trust mechanisms, finding structure, decision-ready output</span><span class="zh">审查体验、可信机制、发现结构、可决策产物</span></span></div>
       <div><b><span class="en">Users</span><span class="zh">用户</span></b><span><span class="en">Designers and product teammates doing competitor research</span><span class="zh">需要做竞品分析的设计师和产品同事</span></span></div>
       <div><b><span class="en">Status</span><span class="zh">状态</span></b><span><span class="en">Four iterations; used within the team</span><span class="zh">四版迭代；组内使用</span></span></div>
     </div>
@@ -774,10 +774,10 @@
       <div class="section-head">
         <div class="label"><span class="en">02 — System</span><span class="zh">02 — 系统</span></div>
         <div>
-          <h2><span class="en">I turned competitive analysis into a runnable agent pipeline.</span><span class="zh">我从单次 prompt 转向了阶段化工作流。</span></h2>
+          <h2><span class="en">I staged the analysis so a person stays in control of every step.</span><span class="zh">我把分析拆成阶段，让人始终掌控每一步。</span></h2>
           <p class="lead">
-            <span class="en">Instead of relying on one large prompt, I split the task into stages. Agents handled capture and analysis, deterministic scripts guarded state and quality gates, and final judgment stayed with the human reviewer.</span>
-            <span class="zh">我没有继续依赖一个大型 prompt 生成整份报告，而是将一次竞品分析拆解为几个明确阶段：证据采集、任务路径提取、三视角分析、人工审查和报告生成。Agent 负责整理和初步分析，脚本负责状态记录与质量检查，人工负责确认哪些结论可以进入最终报告。这样的拆解让流程不再依赖一次性生成结果，而是让每一步都可以被追踪、检查和修正。</span>
+            <span class="en">A single prompt produces a report you can't inspect. Splitting the work into stages — evidence capture, task-flow extraction, three-lens analysis, review, rendering — makes each step traceable and correctable, and keeps the final judgment with a person. AI drafts within each stage; the structure is what keeps it reviewable.</span>
+            <span class="zh">依赖单个大型 prompt 生成的整份报告，无法被检查。把一次竞品分析拆成几个明确阶段——证据采集、任务流提取、三视角分析、人工审查、报告生成——让每一步都可追踪、可修正，并把最终判断留给人。AI 在每个阶段里起草；真正让它可被审查的，是这套结构。</span>
           </p>
         </div>
       </div>
@@ -847,7 +847,7 @@
         <p><span class="en">I used Claude Code to orchestrate the workflow. Playwright handled evidence capture; three analysis lenses ran in parallel; review scripts handled deduplication, viewpoint rewrites, and quality gates. Agents produced the analysis, scripts guarded the process, and I defined the rules.</span><span class="zh">这条流程是我用 Claude Code 搭起来的。Playwright 负责采集证据，Agent 从功能、体验、视觉三个角度做初步分析，脚本负责去重、改写视角和质量检查。哪些规则该守住、哪些地方必须人工确认，是我在过程中定义的。</span></p>
       </div>
       <div class="decision-hero">
-        <span class="hj-kick"><span class="en">The core architecture decision</span><span class="zh">核心架构判断</span></span>
+        <span class="hj-kick"><span class="en">An engineering call underneath</span><span class="zh">底层的一处工程判断</span></span>
         <p class="hj-statement"><span class="zh">状态落盘，不靠记忆。</span><span class="en">Durable state, not memory.</span></p>
         <p class="hj-sub"><span class="zh">每个阶段把结构化状态写到磁盘，而不是留在模型上下文里——所以整轮分析可审计、可复现、可续跑，而不是一个只能从头重跑的黑盒。</span><span class="en">Every phase writes a typed record to disk instead of living in the model's context — so the run stays auditable, reproducible, and resumable, not a black box you re-run from scratch.</span></p>
       </div>
